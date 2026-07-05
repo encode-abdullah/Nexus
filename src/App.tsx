@@ -27,6 +27,11 @@ import { SettingsPage } from './pages/settings/SettingsPage';
 import { HelpPage } from './pages/help/HelpPage';
 import { DealsPage } from './pages/deals/DealsPage';
 
+// New Feature Pages
+import { MeetingsPage } from './pages/meetings/MeetingsPage';
+import { VideoCallPage } from './pages/video/VideoCallPage';
+import { PaymentsPage } from './pages/payments/PaymentsPage';
+
 // Chat Pages
 import { ChatPage } from './pages/chat/ChatPage';
 
@@ -82,6 +87,19 @@ function App() {
           
           <Route path="/deals" element={<DashboardLayout />}>
             <Route index element={<DealsPage />} />
+          </Route>
+          
+          {/* New Routes */}
+          <Route path="/meetings" element={<DashboardLayout />}>
+            <Route index element={<MeetingsPage />} />
+          </Route>
+          
+          <Route path="/video" element={<DashboardLayout />}>
+            <Route index element={<VideoCallPage />} />
+          </Route>
+          
+          <Route path="/payments" element={<DashboardLayout />}>
+            <Route index element={<PaymentsPage />} />
           </Route>
           
           {/* Chat Routes */}
