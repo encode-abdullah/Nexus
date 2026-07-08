@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚀 Nexus
+# Nexus
 
 ### Investor & Entrepreneur Collaboration Platform
 
@@ -16,80 +16,80 @@
 
 A full-stack platform connecting investors with entrepreneurs for seamless collaboration, meetings, document management, and real-time communication.
 
-[Live Demo](https://nexus-iota-five.vercel.app) • [API Docs](#api-documentation) • [Report Bug](https://github.com/encode-abdullah/Nexus/issues)
+[Live Demo](https://nexus-iota-five.vercel.app) | [API Documentation](#api-documentation) | [Report Bug](https://github.com/encode-abdullah/Nexus/issues)
 
 </div>
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Architecture](#-architecture)
-- [Getting Started](#-getting-started)
-- [API Documentation](#-api-documentation)
-- [Environment Variables](#-environment-variables)
-- [Demo Accounts](#-demo-accounts)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+- [Getting Started](#getting-started)
+- [API Documentation](#api-documentation)
+- [Environment Variables](#environment-variables)
+- [Demo Accounts](#demo-accounts)
+- [Contributing](#contributing)
+- [License](#license)
 
 ---
 
-## ✨ Features
+## Features
 
-### 🔐 Authentication & Authorization
+### Authentication & Authorization
 - JWT-based secure authentication
 - Role-based access control (Entrepreneur / Investor)
 - Two-Factor Authentication (2FA) with OTP simulation
 - Password hashing with bcrypt (10 rounds)
 
-### 👤 Profiles
+### Profiles
 - Extended profile management (bio, startup info, investment history)
 - Role-specific dashboards
 - Profile photo upload
 
-### 📅 Meeting Scheduling
+### Meeting Scheduling
 - Interactive calendar grid view (month view)
 - List view toggle
 - Conflict detection (prevents double booking)
 - Accept / Reject / Cancel meeting flows
 - Availability checking
 
-### 📹 Video Calling
+### Video Calling
 - WebRTC peer-to-peer video/audio
 - Socket.IO signaling server
 - Room creation and joining
 - Audio/Video toggle controls
 - End call functionality
 
-### 📄 Document Chamber
+### Document Chamber
 - File upload with drag & drop (Multer)
 - PDF, Image, Word, Excel support
 - In-browser document preview (PDF iframe, image viewer)
 - Canvas-based e-signature with signature pad
 - Document metadata tracking
 
-### 💰 Payment Simulation
+### Payment Simulation
 - Mock transaction system (Deposit / Withdraw / Transfer)
 - Balance tracking
 - Transaction history with status filtering
 - Ready for Stripe/PayPal integration
 
-### 🛡️ Security
+### Security
 - Helmet.js HTTP security headers
 - CORS configuration
 - Rate limiting (100 req/15min general, 20 req/15min auth)
 - Input validation with express-validator
 - XSS protection via sanitization
 
-### 📖 API Documentation
+### API Documentation
 - Swagger/OpenAPI annotations on all routes
 - Interactive Swagger UI at `/api-docs`
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -104,7 +104,7 @@ A full-stack platform connecting investors with entrepreneurs for seamless colla
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 nexus/
@@ -138,11 +138,11 @@ nexus/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 - MongoDB Atlas account (or local MongoDB)
 
@@ -167,7 +167,6 @@ nexus/
 
 4. **Configure environment variables**
    ```bash
-   # Backend
    cp backend/.env.example backend/.env
    # Edit backend/.env with your values
    ```
@@ -180,13 +179,13 @@ nexus/
 
 6. **Start development servers**
 
-   Terminal 1 — Backend:
+   Terminal 1 -- Backend:
    ```bash
    cd backend
    npm run dev
    ```
 
-   Terminal 2 — Frontend:
+   Terminal 2 -- Frontend:
    ```bash
    npm run dev
    ```
@@ -195,7 +194,7 @@ nexus/
 
 ---
 
-## 📡 API Documentation
+## API Documentation
 
 ### Base URL
 ```
@@ -250,11 +249,11 @@ http://localhost:5000/api
 | POST | `/2fa/disable` | Disable 2FA |
 | GET | `/2fa/status` | Check 2FA status |
 
-> 📘 Interactive Swagger UI available at `http://localhost:5000/api-docs`
+> Interactive Swagger UI available at `http://localhost:5000/api-docs`
 
 ---
 
-## 🔑 Environment Variables
+## Environment Variables
 
 ### Backend (`backend/.env`)
 ```env
@@ -272,7 +271,7 @@ VITE_API_URL=http://localhost:5000/api
 
 ---
 
-## 👥 Demo Accounts
+## Demo Accounts
 
 | Role | Email | Password |
 |------|-------|----------|
@@ -286,7 +285,7 @@ VITE_API_URL=http://localhost:5000/api
 
 ---
 
-## 📦 Deployment
+## Deployment
 
 ### Frontend (Vercel)
 ```bash
@@ -303,9 +302,9 @@ npm run build
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
-Contributions are welcome! Please follow these steps:
+Contributions are welcome. Please follow these steps:
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -315,16 +314,16 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License -- see the [LICENSE](LICENSE) file for details.
 
 ---
 
 <div align="center">
 
-**Built with ❤️ for the Full Stack Development Internship**
+**Built for the Full Stack Development Internship**
 
-[⬆ Back to Top](#-nexus)
+[Back to Top](#nexus)
 
 </div>
