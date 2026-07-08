@@ -37,8 +37,9 @@ userSchema.pre('save', async function() {
 
 // Exclude password from JSON responses
 userSchema.methods.toJSON = function() {
-  const obj = this.toObject();
+  const obj = this.toObject({ virtuals: true });
   delete obj.password;
+  delete obj.__v;
   return obj;
 };
 

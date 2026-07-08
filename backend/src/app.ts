@@ -13,6 +13,7 @@ import userRoutes from './routes/users';
 import meetingRoutes from './routes/meetings';
 import documentRoutes from './routes/documents';
 import paymentRoutes from './routes/payments';
+import twoFactorRoutes from './routes/twoFactor';
 import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
@@ -91,6 +92,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/meetings', meetingRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/2fa', twoFactorRoutes);
 
 // Error handling
 app.use(errorHandler);

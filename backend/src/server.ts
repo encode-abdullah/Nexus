@@ -1,10 +1,14 @@
 // Server entry point - connects to MongoDB and starts Express server with Socket.IO
 import dotenv from 'dotenv';
 import path from 'path';
+import dns from 'dns';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import app from './app';
 import connectDB from './config/db';
+
+// Fix DNS SRV resolution on Windows
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 // Load environment variables
 dotenv.config({ path: path.join(__dirname, '../.env') });

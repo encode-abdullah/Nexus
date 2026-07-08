@@ -64,8 +64,14 @@ npm run seed
 - `GET /api/payments/transactions` - Get transaction history
 - `GET /api/payments/balance` - Get balance
 
+### 2FA
+- `POST /api/2fa/setup` - Request OTP for 2FA setup
+- `POST /api/2fa/verify` - Verify OTP and enable 2FA
+- `GET /api/2fa/status` - Check 2FA status
+
 ### Documentation
-- `GET /api-docs` - Swagger API documentation
+- Swagger UI: `http://localhost:5000/api-docs`
+- API docs JSON: `http://localhost:5000/swagger.json`
 
 ## Demo Accounts
 
