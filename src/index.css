@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    @apply dark:bg-gray-900;
+  }
+
+  body {
+    @apply dark:bg-gray-900 dark:text-gray-100;
+  }
+
+  select {
+    @apply dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600;
+  }
+
+  textarea {
+    @apply dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600;
+  }
+}
+
+@layer components {
+  .dark .bg-white { @apply dark:bg-gray-800; }
+  .dark .bg-gray-50 { @apply dark:bg-gray-800; }
+  .dark .bg-gray-100 { @apply dark:bg-gray-700; }
+  .dark .text-gray-900 { @apply dark:text-gray-100; }
+  .dark .text-gray-800 { @apply dark:text-gray-200; }
+  .dark .text-gray-700 { @apply dark:text-gray-300; }
+  .dark .text-gray-600 { @apply dark:text-gray-400; }
+  .dark .text-gray-500 { @apply dark:text-gray-400; }
+  .dark .border-gray-200 { @apply dark:border-gray-700; }
+  .dark .border-gray-300 { @apply dark:border-gray-600; }
+  .dark .hover\:bg-gray-50:hover { @apply dark:hover:bg-gray-700; }
+  .dark .hover\:bg-gray-100:hover { @apply dark:hover:bg-gray-600; }
+}

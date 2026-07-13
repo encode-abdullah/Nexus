@@ -1,0 +1,77 @@
+{
+  "session": "s40150e83-0171-43d7-abaa-9a97384af299",
+  "url": "http://localhost:5173/settings",
+  "state": "ended",
+  "startedMs": 6646.300000000745,
+  "durationMs": 554775,
+  "counts": {
+    "reads": 0,
+    "acts": 0,
+    "narrations": 0,
+    "human": 6,
+    "passes": 0,
+    "fails": 0
+  },
+  "capabilities": {
+    "testids": [
+      "login-btn",
+      "register-btn",
+      "logout-btn",
+      "save-profile-btn",
+      "upload-doc-btn",
+      "sign-doc-btn",
+      "start-call-btn",
+      "join-call-btn",
+      "end-call-btn",
+      "deposit-btn",
+      "withdraw-btn",
+      "transfer-btn",
+      "enable-2fa-btn",
+      "disable-2fa-btn",
+      "meeting-create-btn",
+      "meeting-accept-btn",
+      "meeting-reject-btn"
+    ],
+    "signals": [
+      "auth:login",
+      "auth:register",
+      "meeting:created",
+      "document:uploaded",
+      "payment:completed"
+    ],
+    "stores": [],
+    "flows": []
+  },
+  "log": [
+    {
+      "at": 0,
+      "kind": "human",
+      "text": "🚩 generic: there profile details dont appear when i click them"
+    },
+    {
+      "at": 116200.09999999963,
+      "kind": "human",
+      "text": "🚩 generic: the join call button here does open another window which asks for joining via room id"
+    },
+    {
+      "at": 223343.70000000112,
+      "kind": "human",
+      "text": "🚩 generic: upload button does open windows file explorer for uploading documents"
+    },
+    {
+      "at": 276367.80000000075,
+      "kind": "human",
+      "text": "🚩 main: notifications appear, but in messages it shows no message"
+    },
+    {
+      "at": 351264.4000000004,
+      "kind": "human",
+      "text": "🚩 generic: these button don't work at all, and the theme is always set to white even when i click dark or system"
+    },
+    {
+      "at": 386817,
+      "kind": "human",
+      "text": "🚩 combobox: add real world timezones here"
+    }
+  ]
+}
