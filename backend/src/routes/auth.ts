@@ -1,7 +1,7 @@
 // Auth routes - registration, login, and current user endpoints
 import { Router } from 'express';
 import { body } from 'express-validator';
-import { register, login, getMe } from '../controllers/authController';
+import { register, login, getMe, changePassword } from '../controllers/authController';
 import { auth } from '../middleware/auth';
 import { validate } from '../utils/validate';
 
@@ -99,5 +99,41 @@ router.post('/login',
  *         description: Not authenticated
  */
 router.get('/me', auth, getMe);
+
+/**
+ * @swagger
+ * /api/auth/change-password:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Change password
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [currentPassword, newPassword]
+ *             properties:
+ *               currentPassword:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Password changed
+ *       400:
+ *         description: Invalid current password
+ */
+router.post('/change-password',
+  auth,
+  [
+    body('currentPassword').notEmpty().withMessage('Current password is required'),
+    body('newPassword').isLength({ min: 6 }).withMessage('New password must be at least 6 characters')
+  ],
+  validate,
+  changePassword
+);
 
 export default router;

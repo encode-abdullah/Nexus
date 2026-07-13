@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Users, PieChart, Filter, Search, PlusCircle } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
@@ -8,13 +8,26 @@ import { Badge } from '../../components/ui/Badge';
 import { EntrepreneurCard } from '../../components/entrepreneur/EntrepreneurCard';
 import { useAuth } from '../../context/AuthContext';
 import { Entrepreneur } from '../../types';
-import { entrepreneurs } from '../../data/users';
 import { getRequestsFromInvestor } from '../../data/collaborationRequests';
+import api from '../../lib/api';
 
 export const InvestorDashboard: React.FC = () => {
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
+  const [entrepreneurs, setEntrepreneurs] = useState<Entrepreneur[]>([]);
+
+  useEffect(() => {
+    const fetchEntrepreneurs = async () => {
+      try {
+        const res = await api.get('/users?role=entrepreneur');
+        setEntrepreneurs(res.data.users);
+      } catch {
+        // Fallback empty
+      }
+    };
+    fetchEntrepreneurs();
+  }, []);
   
   if (!user) return null;
   

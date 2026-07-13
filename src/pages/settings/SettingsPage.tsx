@@ -6,13 +6,26 @@ import { Button } from '../../components/ui/Button';
 import { Badge } from '../../components/ui/Badge';
 import { Avatar } from '../../components/ui/Avatar';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import api from '../../lib/api';
 import toast from 'react-hot-toast';
 
 type SettingsTab = 'profile' | 'security' | 'notifications' | 'language' | 'appearance' | 'billing';
 
+const TIMEZONES = [
+  'Pacific/Midway', 'Pacific/Honolulu', 'America/Anchorage', 'America/Los_Angeles',
+  'America/Denver', 'America/Chicago', 'America/New_York', 'America/Caracas',
+  'America/Halifax', 'America/St_Johns', 'America/Sao_Paulo', 'Atlantic/South_Georgia',
+  'Atlantic/Azores', 'Europe/London', 'Europe/Paris', 'Europe/Berlin',
+  'Europe/Athens', 'Europe/Moscow', 'Asia/Dubai', 'Asia/Karachi',
+  'Asia/Kolkata', 'Asia/Dhaka', 'Asia/Bangkok', 'Asia/Shanghai',
+  'Asia/Tokyo', 'Asia/Seoul', 'Australia/Perth', 'Australia/Sydney',
+  'Pacific/Auckland', 'Pacific/Fiji',
+];
+
 export const SettingsPage: React.FC = () => {
   const { user, updateProfile } = useAuth();
+  const { theme, setTheme } = useTheme();
   const [activeTab, setActiveTab] = useState<SettingsTab>('profile');
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState({
@@ -21,6 +34,21 @@ export const SettingsPage: React.FC = () => {
     bio: user?.bio || '',
     location: (user as any)?.location || ''
   });
+
+  // Password change state
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [changingPassword, setChangingPassword] = useState(false);
+
+  // Notification preferences state
+  const [notifPrefs, setNotifPrefs] = useState({
+    email: true, push: true, meetings: true, messages: true, documents: true
+  });
+
+  // Language/region state
+  const [language, setLanguage] = useState('English');
+  const [timezone, setTimezone] = useState('Asia/Karachi');
 
   // 2FA state
   const [twoFAEnabled, setTwoFAEnabled] = useState(false);
@@ -138,6 +166,33 @@ export const SettingsPage: React.FC = () => {
       // Error handled by AuthContext
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handlePasswordChange = async () => {
+    if (!currentPassword || !newPassword) {
+      toast.error('Please fill in all password fields');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      toast.error('New passwords do not match');
+      return;
+    }
+    if (newPassword.length < 6) {
+      toast.error('Password must be at least 6 characters');
+      return;
+    }
+    setChangingPassword(true);
+    try {
+      await api.post('/auth/change-password', { currentPassword, newPassword });
+      toast.success('Password updated successfully!');
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+    } catch (error: any) {
+      toast.error(error.response?.data?.error || 'Failed to change password');
+    } finally {
+      setChangingPassword(false);
     }
   };
 
@@ -267,11 +322,11 @@ export const SettingsPage: React.FC = () => {
                 <div className="pt-6 border-t border-gray-200">
                   <h3 className="text-sm font-medium text-gray-900 mb-4">Change Password</h3>
                   <div className="space-y-4">
-                    <Input label="Current Password" type="password" />
-                    <Input label="New Password" type="password" />
-                    <Input label="Confirm New Password" type="password" />
+                    <Input label="Current Password" type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
+                    <Input label="New Password" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                    <Input label="Confirm New Password" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                     <div className="flex justify-end">
-                      <Button>Update Password</Button>
+                      <Button onClick={handlePasswordChange} isLoading={changingPassword}>Update Password</Button>
                     </div>
                   </div>
                 </div>
@@ -284,10 +339,21 @@ export const SettingsPage: React.FC = () => {
             <Card>
               <CardHeader><h2 className="text-lg font-medium text-gray-900">Notification Preferences</h2></CardHeader>
               <CardBody className="space-y-4">
-                {['Email notifications', 'Push notifications', 'Meeting reminders', 'New investor messages', 'Document updates'].map((item) => (
-                  <label key={item} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <span className="text-sm font-medium text-gray-700">{item}</span>
-                    <input type="checkbox" defaultChecked className="h-4 w-4 text-primary-600 rounded" />
+                {([
+                  { key: 'email', label: 'Email notifications' },
+                  { key: 'push', label: 'Push notifications' },
+                  { key: 'meetings', label: 'Meeting reminders' },
+                  { key: 'messages', label: 'New investor messages' },
+                  { key: 'documents', label: 'Document updates' },
+                ] as const).map((item) => (
+                  <label key={item.key} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">{item.label}</span>
+                    <input
+                      type="checkbox"
+                      checked={notifPrefs[item.key]}
+                      onChange={(e) => setNotifPrefs(prev => ({ ...prev, [item.key]: e.target.checked }))}
+                      className="h-4 w-4 text-primary-600 rounded"
+                    />
                   </label>
                 ))}
                 <div className="flex justify-end pt-4">
@@ -304,7 +370,11 @@ export const SettingsPage: React.FC = () => {
               <CardBody className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Language</label>
-                  <select className="w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 p-2">
+                  <select
+                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 p-2"
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value)}
+                  >
                     <option>English</option>
                     <option>Urdu</option>
                     <option>Arabic</option>
@@ -312,10 +382,14 @@ export const SettingsPage: React.FC = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Timezone</label>
-                  <select className="w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 p-2">
-                    <option>Asia/Karachi (PKT)</option>
-                    <option>UTC</option>
-                    <option>America/New_York (EST)</option>
+                  <select
+                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 p-2"
+                    value={timezone}
+                    onChange={(e) => setTimezone(e.target.value)}
+                  >
+                    {TIMEZONES.map(tz => (
+                      <option key={tz} value={tz}>{tz.replace(/_/g, ' ')}</option>
+                    ))}
                   </select>
                 </div>
                 <div className="flex justify-end pt-4">
@@ -333,9 +407,17 @@ export const SettingsPage: React.FC = () => {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Theme</label>
                   <div className="flex gap-3">
-                    {['Light', 'Dark', 'System'].map((theme) => (
-                      <button key={theme} className="px-4 py-2 border rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
-                        {theme}
+                    {(['light', 'dark', 'system'] as const).map((t) => (
+                      <button
+                        key={t}
+                        onClick={() => setTheme(t)}
+                        className={`px-4 py-2 border rounded-lg text-sm font-medium transition-colors ${
+                          theme === t
+                            ? 'bg-primary-50 text-primary-700 border-primary-300'
+                            : 'hover:bg-gray-50'
+                        }`}
+                      >
+                        {t.charAt(0).toUpperCase() + t.slice(1)}
                       </button>
                     ))}
                   </div>

@@ -7,22 +7,33 @@ import { Badge } from '../../components/ui/Badge';
 import { CollaborationRequestCard } from '../../components/collaboration/CollaborationRequestCard';
 import { InvestorCard } from '../../components/investor/InvestorCard';
 import { useAuth } from '../../context/AuthContext';
-import { CollaborationRequest } from '../../types';
+import { CollaborationRequest, Investor } from '../../types';
 import { getRequestsForEntrepreneur } from '../../data/collaborationRequests';
-import { investors } from '../../data/users';
+import api from '../../lib/api';
 
 export const EntrepreneurDashboard: React.FC = () => {
   const { user } = useAuth();
   const [collaborationRequests, setCollaborationRequests] = useState<CollaborationRequest[]>([]);
-  const [recommendedInvestors, setRecommendedInvestors] = useState(investors.slice(0, 3));
-  
+  const [recommendedInvestors, setRecommendedInvestors] = useState<Investor[]>([]);
+
   useEffect(() => {
     if (user) {
-      // Load collaboration requests
       const requests = getRequestsForEntrepreneur(user.id);
       setCollaborationRequests(requests);
     }
   }, [user]);
+
+  useEffect(() => {
+    const fetchInvestors = async () => {
+      try {
+        const res = await api.get('/users?role=investor');
+        setRecommendedInvestors(res.data.users.slice(0, 3));
+      } catch {
+        // Fallback empty
+      }
+    };
+    fetchInvestors();
+  }, []);
   
   const handleRequestStatusUpdate = (requestId: string, status: 'accepted' | 'rejected') => {
     setCollaborationRequests(prevRequests => 
