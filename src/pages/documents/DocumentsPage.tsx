@@ -138,25 +138,39 @@ export const DocumentsPage: React.FC = () => {
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (acceptedFiles.length === 0) return;
+    setSelectedFile(acceptedFiles[0]);
+  }, []);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const handleUpload = async () => {
+    if (!selectedFile) {
+      fileInputRef.current?.click();
+      return;
+    }
     setUploading(true);
-    const file = acceptedFiles[0];
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', selectedFile);
     try {
       await api.post('/documents', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       toast.success('Document uploaded successfully');
       setShowUploadModal(false);
+      setSelectedFile(null);
       fetchDocuments();
     } catch {
       toast.error('Failed to upload document');
     } finally {
       setUploading(false);
     }
-  }, []);
+  };
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) setSelectedFile(file);
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -311,31 +325,50 @@ export const DocumentsPage: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Upload Document</h2>
-            <div
-              {...getRootProps()}
-              onClick={(e) => {
-                getRootProps().onClick?.(e as any);
-                if (!e.defaultPrevented) {
-                  fileInputRef.current?.click();
-                }
-              }}
-              className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${isDragActive ? 'border-primary-500 bg-primary-50' : 'border-gray-300 hover:border-primary-400'}`}
-            >
-              <input {...getInputProps()} ref={fileInputRef} />
-              <Upload size={48} className="mx-auto text-gray-400 mb-4" />
-              <p className="text-gray-600">{isDragActive ? 'Drop your file here' : 'Drag & drop a file, or click to select'}</p>
-              <p className="text-sm text-gray-400 mt-2">PDF, DOC, DOCX, JPG, PNG up to 10MB</p>
-              <button
-                type="button"
-                onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click(); }}
-                className="mt-3 px-4 py-2 text-sm font-medium text-primary-600 hover:text-primary-700 underline"
+            <input
+              ref={fileInputRef}
+              type="file"
+              className="hidden"
+              accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+              onChange={handleFileInputChange}
+            />
+            {selectedFile ? (
+              <div className="border border-gray-200 rounded-lg p-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-primary-50 rounded-lg">
+                    <FileText size={24} className="text-primary-600" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900 truncate">{selectedFile.name}</p>
+                    <p className="text-xs text-gray-500">{(selectedFile.size / 1024).toFixed(1)} KB</p>
+                  </div>
+                  <button onClick={() => setSelectedFile(null)} className="text-gray-400 hover:text-gray-600">
+                    <X size={18} />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div
+                {...getRootProps()}
+                onClick={(e) => {
+                  getRootProps().onClick?.(e as any);
+                  if (!e.defaultPrevented) {
+                    fileInputRef.current?.click();
+                  }
+                }}
+                className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${isDragActive ? 'border-primary-500 bg-primary-50' : 'border-gray-300 hover:border-primary-400'}`}
               >
-                Browse files
-              </button>
-            </div>
+                <input {...getInputProps()} />
+                <Upload size={48} className="mx-auto text-gray-400 mb-4" />
+                <p className="text-gray-600">{isDragActive ? 'Drop your file here' : 'Drag & drop a file, or click to select'}</p>
+                <p className="text-sm text-gray-400 mt-2">PDF, DOC, DOCX, JPG, PNG up to 10MB</p>
+              </div>
+            )}
             <div className="flex justify-end gap-3 mt-6">
-              <Button variant="outline" onClick={() => setShowUploadModal(false)}>Cancel</Button>
-              <Button isLoading={uploading}>Upload</Button>
+              <Button variant="outline" onClick={() => { setShowUploadModal(false); setSelectedFile(null); }}>Cancel</Button>
+              <Button onClick={handleUpload} isLoading={uploading}>
+                {selectedFile ? 'Upload' : 'Choose File'}
+              </Button>
             </div>
           </div>
         </div>
