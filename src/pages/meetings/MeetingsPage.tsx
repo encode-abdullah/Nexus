@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar, Clock, Users, Plus, Check, X, Video, Trash2 } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Calendar, Clock, Users, Plus, Check, X, Video, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card, CardBody, CardHeader } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Badge } from '../../components/ui/Badge';
@@ -7,7 +7,7 @@ import { Input } from '../../components/ui/Input';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../lib/api';
 import toast from 'react-hot-toast';
-import { format } from 'date-fns';
+import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, addMonths, subMonths, isSameMonth, isSameDay, isToday } from 'date-fns';
 
 interface Meeting {
   _id: string;
@@ -25,6 +25,9 @@ export const MeetingsPage: React.FC = () => {
   const [meetings, setMeetings] = useState<Meeting[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [view, setView] = useState<'calendar' | 'list'>('calendar');
   const [newMeeting, setNewMeeting] = useState({
     title: '',
     description: '',
@@ -33,9 +36,7 @@ export const MeetingsPage: React.FC = () => {
     participantEmail: ''
   });
 
-  useEffect(() => {
-    fetchMeetings();
-  }, []);
+  useEffect(() => { fetchMeetings(); }, []);
 
   const fetchMeetings = async () => {
     try {
@@ -53,7 +54,6 @@ export const MeetingsPage: React.FC = () => {
       toast.error('Please fill in all required fields');
       return;
     }
-
     try {
       await api.post('/meetings', {
         title: newMeeting.title,
@@ -101,9 +101,28 @@ export const MeetingsPage: React.FC = () => {
     }
   };
 
+  // Calendar calculations
+  const calendarDays = useMemo(() => {
+    const monthStart = startOfMonth(currentMonth);
+    const monthEnd = endOfMonth(monthStart);
+    const calStart = startOfWeek(monthStart);
+    const calEnd = endOfWeek(monthEnd);
+    const days: Date[] = [];
+    let day = calStart;
+    while (day <= calEnd) {
+      days.push(day);
+      day = addDays(day, 1);
+    }
+    return days;
+  }, [currentMonth]);
+
+  const getMeetingsForDate = (date: Date) => {
+    return meetings.filter(m => isSameDay(new Date(m.startTime), date));
+  };
+
+  const selectedDateMeetings = selectedDate ? getMeetingsForDate(selectedDate) : [];
   const pendingMeetings = meetings.filter(m => m.status === 'pending');
   const acceptedMeetings = meetings.filter(m => m.status === 'accepted');
-  const pastMeetings = meetings.filter(m => m.status === 'rejected' || m.status === 'cancelled');
 
   if (loading) {
     return <div className="text-center py-12"><p className="text-gray-500">Loading meetings...</p></div>;
@@ -116,9 +135,25 @@ export const MeetingsPage: React.FC = () => {
           <h1 className="text-2xl font-bold text-gray-900">Meetings</h1>
           <p className="text-gray-600">Schedule and manage your meetings</p>
         </div>
-        <Button leftIcon={<Plus size={18} />} onClick={() => setShowCreateModal(true)}>
-          Schedule Meeting
-        </Button>
+        <div className="flex gap-3">
+          <div className="flex rounded-md border border-gray-300 overflow-hidden">
+            <button
+              onClick={() => setView('calendar')}
+              className={`px-4 py-2 text-sm font-medium ${view === 'calendar' ? 'bg-primary-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+            >
+              <Calendar size={16} className="inline mr-1" /> Calendar
+            </button>
+            <button
+              onClick={() => setView('list')}
+              className={`px-4 py-2 text-sm font-medium ${view === 'list' ? 'bg-primary-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+            >
+              <Clock size={16} className="inline mr-1" /> List
+            </button>
+          </div>
+          <Button leftIcon={<Plus size={18} />} onClick={() => setShowCreateModal(true)}>
+            Schedule Meeting
+          </Button>
+        </div>
       </div>
 
       {/* Pending Meetings */}
@@ -143,12 +178,8 @@ export const MeetingsPage: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" leftIcon={<Check size={16} />} onClick={() => handleStatusUpdate(meeting._id, 'accepted')}>
-                    Accept
-                  </Button>
-                  <Button size="sm" variant="outline" leftIcon={<X size={16} />} onClick={() => handleStatusUpdate(meeting._id, 'rejected')}>
-                    Reject
-                  </Button>
+                  <Button size="sm" leftIcon={<Check size={16} />} onClick={() => handleStatusUpdate(meeting._id, 'accepted')}>Accept</Button>
+                  <Button size="sm" variant="outline" leftIcon={<X size={16} />} onClick={() => handleStatusUpdate(meeting._id, 'rejected')}>Reject</Button>
                 </div>
               </div>
             ))}
@@ -156,75 +187,170 @@ export const MeetingsPage: React.FC = () => {
         </Card>
       )}
 
-      {/* Upcoming Meetings */}
-      <Card>
-        <CardHeader>
-          <h2 className="text-lg font-medium text-gray-900">Upcoming Meetings</h2>
-          <Badge variant="success">{acceptedMeetings.length}</Badge>
-        </CardHeader>
-        <CardBody className="space-y-4">
-          {acceptedMeetings.length === 0 ? (
-            <div className="text-center py-8">
-              <Calendar size={48} className="mx-auto text-gray-300 mb-4" />
-              <p className="text-gray-500">No upcoming meetings</p>
-            </div>
-          ) : (
-            acceptedMeetings.map(meeting => (
-              <div key={meeting._id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-green-50 rounded-full">
-                    <Video size={20} className="text-green-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-gray-900">{meeting.title}</h3>
-                    <p className="text-sm text-gray-500">
-                      {format(new Date(meeting.startTime), 'MMM d, yyyy h:mm a')} - {format(new Date(meeting.endTime), 'h:mm a')}
-                    </p>
-                    <div className="flex items-center gap-2 mt-1">
-                      <Users size={14} className="text-gray-400" />
-                      <span className="text-xs text-gray-500">{meeting.participants.length} participants</span>
-                    </div>
-                  </div>
+      {/* Calendar View */}
+      {view === 'calendar' && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <Card>
+              <CardHeader className="flex justify-between items-center">
+                <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className="p-2 hover:bg-gray-100 rounded-md">
+                  <ChevronLeft size={20} />
+                </button>
+                <h2 className="text-lg font-medium text-gray-900">{format(currentMonth, 'MMMM yyyy')}</h2>
+                <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} className="p-2 hover:bg-gray-100 rounded-md">
+                  <ChevronRight size={20} />
+                </button>
+              </CardHeader>
+              <CardBody className="p-0">
+                {/* Day headers */}
+                <div className="grid grid-cols-7 border-b border-gray-200">
+                  {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                    <div key={day} className="p-3 text-center text-sm font-medium text-gray-500">{day}</div>
+                  ))}
                 </div>
-                <div className="flex gap-2">
-                  {meeting.meetingLink && (
-                    <Button size="sm" leftIcon={<Video size={16} />}>
-                      Join
-                    </Button>
-                  )}
-                  <Button size="sm" variant="outline" leftIcon={<Trash2 size={16} />} onClick={() => handleDeleteMeeting(meeting._id)}>
-                    Delete
-                  </Button>
-                </div>
-              </div>
-            ))
-          )}
-        </CardBody>
-      </Card>
+                {/* Calendar grid */}
+                <div className="grid grid-cols-7">
+                  {calendarDays.map((day, idx) => {
+                    const dayMeetings = getMeetingsForDate(day);
+                    const isCurrentMonth = isSameMonth(day, currentMonth);
+                    const isSelected = selectedDate && isSameDay(day, selectedDate);
+                    const today = isToday(day);
 
-      {/* Past/Cancelled */}
-      {pastMeetings.length > 0 && (
+                    return (
+                      <div
+                        key={idx}
+                        onClick={() => setSelectedDate(day)}
+                        className={`min-h-[80px] p-2 border-b border-r border-gray-100 cursor-pointer transition-colors
+                          ${!isCurrentMonth ? 'bg-gray-50 text-gray-400' : 'hover:bg-gray-50'}
+                          ${isSelected ? 'bg-primary-50 ring-2 ring-primary-500' : ''}
+                          ${today ? 'bg-blue-50' : ''}`}
+                      >
+                        <div className={`text-sm font-medium mb-1 ${today ? 'text-primary-600 font-bold' : ''}`}>
+                          {format(day, 'd')}
+                        </div>
+                        <div className="space-y-1">
+                          {dayMeetings.slice(0, 2).map(m => (
+                            <div
+                              key={m._id}
+                              className={`text-xs px-1.5 py-0.5 rounded truncate ${
+                                m.status === 'accepted' ? 'bg-green-100 text-green-800' :
+                                m.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                'bg-gray-100 text-gray-600'
+                              }`}
+                            >
+                              {m.title}
+                            </div>
+                          ))}
+                          {dayMeetings.length > 2 && (
+                            <div className="text-xs text-gray-500">+{dayMeetings.length - 2} more</div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </CardBody>
+            </Card>
+          </div>
+
+          {/* Selected date detail */}
+          <div>
+            <Card>
+              <CardHeader>
+                <h2 className="text-lg font-medium text-gray-900">
+                  {selectedDate ? format(selectedDate, 'MMM d, yyyy') : 'Select a date'}
+                </h2>
+              </CardHeader>
+              <CardBody>
+                {selectedDate ? (
+                  selectedDateMeetings.length === 0 ? (
+                    <p className="text-gray-500 text-center py-4">No meetings on this day</p>
+                  ) : (
+                    <div className="space-y-3">
+                      {selectedDateMeetings.map(m => (
+                        <div key={m._id} className="p-3 border border-gray-200 rounded-lg">
+                          <div className="flex items-center justify-between mb-1">
+                            <h3 className="font-medium text-gray-900">{m.title}</h3>
+                            <Badge variant={getStatusColor(m.status) as any} size="sm">{m.status}</Badge>
+                          </div>
+                          <p className="text-sm text-gray-500">
+                            {format(new Date(m.startTime), 'h:mm a')} - {format(new Date(m.endTime), 'h:mm a')}
+                          </p>
+                          <div className="flex gap-2 mt-2">
+                            {m.status === 'pending' && (
+                              <>
+                                <Button size="sm" onClick={() => handleStatusUpdate(m._id, 'accepted')}>Accept</Button>
+                                <Button size="sm" variant="outline" onClick={() => handleStatusUpdate(m._id, 'rejected')}>Reject</Button>
+                              </>
+                            )}
+                            {m.status === 'accepted' && m.meetingLink && (
+                              <Button size="sm" leftIcon={<Video size={14} />}>Join</Button>
+                            )}
+                            <Button size="sm" variant="outline" onClick={() => handleDeleteMeeting(m._id)}>
+                              <Trash2 size={14} />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )
+                ) : (
+                  <p className="text-gray-400 text-center py-4">Click a date on the calendar to see meetings</p>
+                )}
+              </CardBody>
+            </Card>
+          </div>
+        </div>
+      )}
+
+      {/* List View */}
+      {view === 'list' && (
         <Card>
           <CardHeader>
-            <h2 className="text-lg font-medium text-gray-900">Past Meetings</h2>
+            <h2 className="text-lg font-medium text-gray-900">All Meetings</h2>
+            <Badge variant="primary">{meetings.length}</Badge>
           </CardHeader>
           <CardBody className="space-y-4">
-            {pastMeetings.map(meeting => (
-              <div key={meeting._id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg opacity-60">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-gray-100 rounded-full">
-                    <Calendar size={20} className="text-gray-500" />
+            {meetings.length === 0 ? (
+              <div className="text-center py-8">
+                <Calendar size={48} className="mx-auto text-gray-300 mb-4" />
+                <p className="text-gray-500">No meetings yet</p>
+              </div>
+            ) : (
+              meetings.map(meeting => (
+                <div key={meeting._id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                  <div className="flex items-center gap-4">
+                    <div className={`p-3 rounded-full ${
+                      meeting.status === 'accepted' ? 'bg-green-50' :
+                      meeting.status === 'pending' ? 'bg-yellow-50' : 'bg-gray-100'
+                    }`}>
+                      {meeting.status === 'accepted' ?
+                        <Video size={20} className="text-green-600" /> :
+                        <Calendar size={20} className={meeting.status === 'pending' ? 'text-yellow-600' : 'text-gray-500'} />
+                      }
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-gray-900">{meeting.title}</h3>
+                      <p className="text-sm text-gray-500">
+                        {format(new Date(meeting.startTime), 'MMM d, yyyy h:mm a')} - {format(new Date(meeting.endTime), 'h:mm a')}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-medium text-gray-900">{meeting.title}</h3>
-                    <p className="text-sm text-gray-500">
-                      {format(new Date(meeting.startTime), 'MMM d, yyyy h:mm a')}
-                    </p>
+                  <div className="flex items-center gap-2">
+                    <Badge variant={getStatusColor(meeting.status) as any}>{meeting.status}</Badge>
+                    {meeting.status === 'pending' && (
+                      <>
+                        <Button size="sm" leftIcon={<Check size={14} />} onClick={() => handleStatusUpdate(meeting._id, 'accepted')}>Accept</Button>
+                        <Button size="sm" variant="outline" leftIcon={<X size={14} />} onClick={() => handleStatusUpdate(meeting._id, 'rejected')}>Reject</Button>
+                      </>
+                    )}
+                    <Button size="sm" variant="outline" onClick={() => handleDeleteMeeting(meeting._id)}>
+                      <Trash2 size={14} />
+                    </Button>
                   </div>
                 </div>
-                <Badge variant={getStatusColor(meeting.status) as any}>{meeting.status}</Badge>
-              </div>
-            ))}
+              ))
+            )}
           </CardBody>
         </Card>
       )}
@@ -235,35 +361,14 @@ export const MeetingsPage: React.FC = () => {
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Schedule Meeting</h2>
             <div className="space-y-4">
-              <Input
-                label="Meeting Title"
-                value={newMeeting.title}
-                onChange={(e) => setNewMeeting({ ...newMeeting, title: e.target.value })}
-                placeholder="e.g., Investment Discussion"
-              />
+              <Input label="Meeting Title" value={newMeeting.title} onChange={(e) => setNewMeeting({ ...newMeeting, title: e.target.value })} placeholder="e.g., Investment Discussion" />
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                <textarea
-                  className="w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
-                  rows={3}
-                  value={newMeeting.description}
-                  onChange={(e) => setNewMeeting({ ...newMeeting, description: e.target.value })}
-                  placeholder="Meeting agenda..."
-                />
+                <textarea className="w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500" rows={3} value={newMeeting.description} onChange={(e) => setNewMeeting({ ...newMeeting, description: e.target.value })} placeholder="Meeting agenda..." />
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <Input
-                  label="Start Time"
-                  type="datetime-local"
-                  value={newMeeting.startTime}
-                  onChange={(e) => setNewMeeting({ ...newMeeting, startTime: e.target.value })}
-                />
-                <Input
-                  label="End Time"
-                  type="datetime-local"
-                  value={newMeeting.endTime}
-                  onChange={(e) => setNewMeeting({ ...newMeeting, endTime: e.target.value })}
-                />
+                <Input label="Start Time" type="datetime-local" value={newMeeting.startTime} onChange={(e) => setNewMeeting({ ...newMeeting, startTime: e.target.value })} />
+                <Input label="End Time" type="datetime-local" value={newMeeting.endTime} onChange={(e) => setNewMeeting({ ...newMeeting, endTime: e.target.value })} />
               </div>
             </div>
             <div className="flex justify-end gap-3 mt-6">

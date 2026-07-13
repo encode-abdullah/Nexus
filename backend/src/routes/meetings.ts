@@ -49,7 +49,7 @@ router.post('/',
     body('title').trim().notEmpty().withMessage('Title is required'),
     body('startTime').isISO8601().withMessage('Valid start time is required'),
     body('endTime').isISO8601().withMessage('Valid end time is required'),
-    body('participants').isArray({ min: 1 }).withMessage('At least one participant is required')
+    body('participants').optional().isArray().withMessage('Participants must be an array')
   ],
   validate,
   createMeeting

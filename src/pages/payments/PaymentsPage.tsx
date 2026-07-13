@@ -78,7 +78,7 @@ export const PaymentsPage: React.FC = () => {
           return;
         }
         await api.post('/payments/transfer', {
-          recipientId: recipient._id,
+          toUserId: recipient._id,
           amount: parseFloat(amount)
         });
         toast.success('Transfer successful');

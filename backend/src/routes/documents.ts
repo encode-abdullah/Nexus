@@ -124,7 +124,7 @@ router.delete('/:id', auth, deleteDocument);
 router.post('/:id/sign',
   auth,
   [
-    require('express-validator').body('signatureData').notEmpty().withMessage('Signature data is required')
+    require('express-validator').body('signatureImage').notEmpty().withMessage('Signature image is required')
   ],
   require('../utils/validate').validate,
   signDocument
