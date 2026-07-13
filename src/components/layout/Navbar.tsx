@@ -53,7 +53,7 @@ export const Navbar: React.FC = () => {
   ];
   
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-white dark:bg-gray-800 shadow-md transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           {/* Logo and brand */}
@@ -65,7 +65,7 @@ export const Navbar: React.FC = () => {
                   <path d="M16 21V5C16 3.89543 15.1046 3 14 3H10C8.89543 3 8 3.89543 8 5V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
-              <span className="text-lg font-bold text-gray-900">Business Nexus</span>
+              <span className="text-lg font-bold text-gray-900 dark:text-white">Business Nexus</span>
             </Link>
           </div>
           
@@ -77,7 +77,7 @@ export const Navbar: React.FC = () => {
                   <Link
                     key={index}
                     to={link.path}
-                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors duration-200"
+                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-primary-400 dark:hover:bg-gray-700 rounded-md transition-colors duration-200"
                   >
                     <span className="mr-2">{link.icon}</span>
                     {link.text}
@@ -99,7 +99,7 @@ export const Navbar: React.FC = () => {
                     size="sm"
                     status={user.isOnline ? 'online' : 'offline'}
                   />
-                  <span className="text-sm font-medium text-gray-700">{user.name}</span>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{user.name}</span>
                 </Link>
               </div>
             ) : (
@@ -118,7 +118,7 @@ export const Navbar: React.FC = () => {
           <div className="md:hidden flex items-center">
             <button
               onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary-600 hover:bg-gray-50 focus:outline-none"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-primary-400 dark:hover:bg-gray-700 focus:outline-none"
             >
               {isMenuOpen ? (
                 <X className="block h-6 w-6" />
@@ -132,7 +132,7 @@ export const Navbar: React.FC = () => {
       
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-b border-gray-200 animate-fade-in">
+        <div className="md:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 animate-fade-in transition-colors">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {user ? (
               <>
@@ -144,17 +144,17 @@ export const Navbar: React.FC = () => {
                     status={user.isOnline ? 'online' : 'offline'}
                   />
                   <div>
-                    <p className="text-sm font-medium text-gray-800">{user.name}</p>
-                    <p className="text-xs text-gray-500 capitalize">{user.role}</p>
+                    <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{user.name}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">{user.role}</p>
                   </div>
                 </div>
                 
-                <div className="border-t border-gray-200 pt-2">
+                <div className="border-t border-gray-200 dark:border-gray-700 pt-2">
                   {navLinks.map((link, index) => (
                     <Link
                       key={index}
                       to={link.path}
-                      className="flex items-center px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
+                      className="flex items-center px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-primary-400 dark:hover:bg-gray-700 rounded-md"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       <span className="mr-3">{link.icon}</span>
@@ -167,7 +167,7 @@ export const Navbar: React.FC = () => {
                       handleLogout();
                       setIsMenuOpen(false);
                     }}
-                    className="flex w-full items-center px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
+                    className="flex w-full items-center px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-primary-400 dark:hover:bg-gray-700 rounded-md"
                   >
                     <LogOut size={18} className="mr-3" />
                     Logout
