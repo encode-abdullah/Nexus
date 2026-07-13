@@ -6,6 +6,7 @@ import { AuthRequest } from '../middleware/auth';
 
 export const createDeposit = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
+    console.log('[DEPOSIT] User:', req.user?._id, 'Body:', req.body);
     if (!req.user) {
       res.status(401).json({ error: 'Not authenticated' });
       return;
@@ -18,8 +19,6 @@ export const createDeposit = async (req: AuthRequest, res: Response): Promise<vo
       return;
     }
 
-    // In production, this would create a Stripe checkout session
-    // For sandbox, we simulate a successful payment
     const transaction = await Transaction.create({
       userId: req.user._id,
       type: 'deposit',
@@ -30,9 +29,10 @@ export const createDeposit = async (req: AuthRequest, res: Response): Promise<vo
       description: `Deposit of ${amount} ${currency}`
     });
 
+    console.log('[DEPOSIT] Created transaction:', transaction._id);
     res.status(201).json({ transaction });
   } catch (error) {
-    console.error('Deposit error:', error);
+    console.error('[DEPOSIT] Error:', error);
     res.status(500).json({ error: 'Deposit failed' });
   }
 };
@@ -74,19 +74,19 @@ export const createTransfer = async (req: AuthRequest, res: Response): Promise<v
       return;
     }
 
-    const { recipientId, amount, currency = 'USD' } = req.body;
+    const { toUserId, amount, currency = 'USD' } = req.body;
 
     if (!amount || amount <= 0) {
       res.status(400).json({ error: 'Invalid amount' });
       return;
     }
 
-    if (!recipientId) {
+    if (!toUserId) {
       res.status(400).json({ error: 'Recipient is required' });
       return;
     }
 
-    const recipient = await User.findById(recipientId);
+    const recipient = await User.findById(toUserId);
     if (!recipient) {
       res.status(404).json({ error: 'Recipient not found' });
       return;
@@ -98,7 +98,7 @@ export const createTransfer = async (req: AuthRequest, res: Response): Promise<v
       amount,
       currency,
       status: 'completed',
-      recipientId,
+      recipientId: toUserId,
       description: `Transfer of ${amount} ${currency} to ${recipient.name}`
     });
 
@@ -116,18 +116,18 @@ export const getTransactions = async (req: AuthRequest, res: Response): Promise<
       return;
     }
 
+    console.log('[TXNS] Fetching for user:', req.user._id);
     const transactions = await Transaction.find({
       $or: [
         { userId: req.user._id },
         { recipientId: req.user._id }
       ]
-    }).populate('userId', 'name email avatarUrl')
-      .populate('recipientId', 'name email avatarUrl')
-      .sort({ createdAt: -1 });
+    }).sort({ createdAt: -1 });
 
+    console.log('[TXNS] Found:', transactions.length);
     res.json({ transactions });
   } catch (error) {
-    console.error('Get transactions error:', error);
+    console.error('[TXNS] Error:', error);
     res.status(500).json({ error: 'Failed to get transactions' });
   }
 };
@@ -139,20 +139,23 @@ export const getBalance = async (req: AuthRequest, res: Response): Promise<void>
       return;
     }
 
+    console.log('[BALANCE] Fetching for user:', req.user._id);
     const transactions = await Transaction.find({
       userId: req.user._id,
       status: 'completed'
     });
 
+    console.log('[BALANCE] Found transactions:', transactions.length);
     const balance = transactions.reduce((total, tx) => {
       if (tx.type === 'deposit') return total + tx.amount;
       if (tx.type === 'withdraw' || tx.type === 'transfer') return total - tx.amount;
       return total;
     }, 0);
 
+    console.log('[BALANCE] Calculated:', balance);
     res.json({ balance: Math.max(0, balance) });
   } catch (error) {
-    console.error('Get balance error:', error);
+    console.error('[BALANCE] Error:', error);
     res.status(500).json({ error: 'Failed to get balance' });
   }
 };

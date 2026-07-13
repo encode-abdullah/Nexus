@@ -148,20 +148,20 @@ export const VideoCallPage: React.FC = () => {
     return (
       <div className="space-y-6 animate-fade-in">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Video Calls</h1>
-          <p className="text-gray-600">Start or join a video call with other users</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Video Calls</h1>
+          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500">Start or join a video call with other users</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card className="hover:shadow-lg transition-shadow flex flex-col">
             <CardHeader>
-              <h2 className="text-lg font-medium text-gray-900">Start New Call</h2>
+              <h2 className="text-lg font-medium text-gray-900 dark:text-white">Start New Call</h2>
             </CardHeader>
             <CardBody className="space-y-4 flex flex-col flex-1">
-              <div className="flex items-center justify-center h-32 bg-gray-50 rounded-lg flex-1">
+              <div className="flex items-center justify-center h-32 bg-gray-50 dark:bg-gray-800 rounded-lg flex-1">
                 <div className="text-center">
                   <Video size={40} className="mx-auto text-primary-500 mb-2" />
-                  <p className="text-sm text-gray-500">Create a room and invite others</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">Create a room and invite others</p>
                 </div>
               </div>
               <Button leftIcon={<Video size={18} />} fullWidth onClick={startNewCall} isLoading={isStarting}>
@@ -172,7 +172,7 @@ export const VideoCallPage: React.FC = () => {
 
           <Card className="flex flex-col">
             <CardHeader>
-              <h2 className="text-lg font-medium text-gray-900">Join Existing Call</h2>
+              <h2 className="text-lg font-medium text-gray-900 dark:text-white">Join Existing Call</h2>
             </CardHeader>
             <CardBody className="space-y-4 flex flex-col flex-1">
               <div className="flex-1" />
@@ -199,7 +199,7 @@ export const VideoCallPage: React.FC = () => {
         <div className="max-w-2xl mx-auto">
           <Card>
             <CardHeader>
-              <h2 className="text-lg font-medium text-gray-900">Ready to join?</h2>
+              <h2 className="text-lg font-medium text-gray-900 dark:text-white">Ready to join?</h2>
             </CardHeader>
             <CardBody className="space-y-6">
               {/* Camera Preview */}
@@ -218,7 +218,7 @@ export const VideoCallPage: React.FC = () => {
                       <div className="w-20 h-20 bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-3">
                         <span className="text-3xl font-bold text-white">{user?.name?.charAt(0)}</span>
                       </div>
-                      <p className="text-gray-400 text-sm">Camera is off</p>
+                      <p className="text-gray-400 dark:text-gray-500 text-sm">Camera is off</p>
                     </div>
                   </div>
                 )}
@@ -250,7 +250,7 @@ export const VideoCallPage: React.FC = () => {
               </div>
 
               {/* Room info */}
-              <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500">
                 <span>Room: {roomId}</span>
                 <button onClick={copyRoomId} className="text-primary-600 hover:text-primary-700">
                   <Copy size={14} />
@@ -281,7 +281,7 @@ export const VideoCallPage: React.FC = () => {
         <div className="flex items-center gap-3">
           <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
           <span className="text-white font-medium">Nexus Meeting</span>
-          <span className="text-gray-400 text-sm">{formatDuration(callDuration)}</span>
+          <span className="text-gray-400 dark:text-gray-500 text-sm">{formatDuration(callDuration)}</span>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -306,10 +306,10 @@ export const VideoCallPage: React.FC = () => {
         <div className="w-full h-full bg-gray-800 rounded-2xl flex items-center justify-center">
           <div className="text-center">
             <div className="w-24 h-24 bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Users size={40} className="text-gray-400" />
+              <Users size={40} className="text-gray-400 dark:text-gray-500" />
             </div>
-            <p className="text-gray-400 text-lg">Waiting for others to join...</p>
-            <p className="text-gray-500 text-sm mt-2">Share room ID: <span className="font-mono text-gray-300">{roomId}</span></p>
+            <p className="text-gray-400 dark:text-gray-500 text-lg">Waiting for others to join...</p>
+            <p className="text-gray-500 dark:text-gray-400 dark:text-gray-500 text-sm mt-2">Share room ID: <span className="font-mono text-gray-300">{roomId}</span></p>
           </div>
         </div>
 

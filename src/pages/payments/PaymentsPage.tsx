@@ -36,17 +36,18 @@ export const PaymentsPage: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const [txRes, balRes] = await Promise.all([
-        api.get('/payments/transactions'),
-        api.get('/payments/balance')
-      ]);
-      setTransactions(txRes.data.transactions);
-      setBalance(balRes.data.balance);
+      const txRes = await api.get('/payments/transactions');
+      setTransactions(txRes.data.transactions || []);
     } catch {
-      toast.error('Failed to load payment data');
-    } finally {
-      setLoading(false);
+      // silent
     }
+    try {
+      const balRes = await api.get('/payments/balance');
+      setBalance(balRes.data.balance || 0);
+    } catch {
+      // silent
+    }
+    setLoading(false);
   };
 
   const handleTransaction = async () => {
@@ -85,7 +86,7 @@ export const PaymentsPage: React.FC = () => {
       }
       setAmount('');
       setRecipientEmail('');
-      fetchData();
+      await fetchData();
     } catch (error: any) {
       toast.error(error.response?.data?.error || 'Transaction failed');
     } finally {
@@ -118,8 +119,8 @@ export const PaymentsPage: React.FC = () => {
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Payments</h1>
-        <p className="text-gray-600">Manage your funds and transactions</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Payments</h1>
+        <p className="text-gray-600 dark:text-gray-400">Manage your funds and transactions</p>
       </div>
 
       {/* Balance Card */}
@@ -143,12 +144,12 @@ export const PaymentsPage: React.FC = () => {
         <Card className={`cursor-pointer transition-all ${activeTab === 'deposit' ? 'ring-2 ring-primary-500' : ''}`}
           onClick={() => setActiveTab('deposit')}>
           <CardBody className="flex items-center gap-4 p-4">
-            <div className="p-3 bg-green-50 rounded-full">
-              <ArrowDownLeft size={24} className="text-green-600" />
+            <div className="p-3 bg-green-50 dark:bg-green-900/30 rounded-full">
+              <ArrowDownLeft size={24} className="text-green-600 dark:text-green-400" />
             </div>
             <div>
-              <h3 className="font-medium text-gray-900">Deposit</h3>
-              <p className="text-sm text-gray-500">Add funds</p>
+              <h3 className="font-medium text-gray-900 dark:text-white">Deposit</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Add funds</p>
             </div>
           </CardBody>
         </Card>
@@ -156,12 +157,12 @@ export const PaymentsPage: React.FC = () => {
         <Card className={`cursor-pointer transition-all ${activeTab === 'withdraw' ? 'ring-2 ring-primary-500' : ''}`}
           onClick={() => setActiveTab('withdraw')}>
           <CardBody className="flex items-center gap-4 p-4">
-            <div className="p-3 bg-red-50 rounded-full">
-              <ArrowUpRight size={24} className="text-red-600" />
+            <div className="p-3 bg-red-50 dark:bg-red-900/30 rounded-full">
+              <ArrowUpRight size={24} className="text-red-600 dark:text-red-400" />
             </div>
             <div>
-              <h3 className="font-medium text-gray-900">Withdraw</h3>
-              <p className="text-sm text-gray-500">Cash out</p>
+              <h3 className="font-medium text-gray-900 dark:text-white">Withdraw</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Cash out</p>
             </div>
           </CardBody>
         </Card>
@@ -169,12 +170,12 @@ export const PaymentsPage: React.FC = () => {
         <Card className={`cursor-pointer transition-all ${activeTab === 'transfer' ? 'ring-2 ring-primary-500' : ''}`}
           onClick={() => setActiveTab('transfer')}>
           <CardBody className="flex items-center gap-4 p-4">
-            <div className="p-3 bg-blue-50 rounded-full">
-              <Send size={24} className="text-blue-600" />
+            <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-full">
+              <Send size={24} className="text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <h3 className="font-medium text-gray-900">Transfer</h3>
-              <p className="text-sm text-gray-500">Send to others</p>
+              <h3 className="font-medium text-gray-900 dark:text-white">Transfer</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Send to others</p>
             </div>
           </CardBody>
         </Card>
@@ -183,7 +184,7 @@ export const PaymentsPage: React.FC = () => {
       {/* Transaction Form */}
       <Card>
         <CardHeader>
-          <h2 className="text-lg font-medium text-gray-900 capitalize">{activeTab}</h2>
+          <h2 className="text-lg font-medium text-gray-900 dark:text-white capitalize">{activeTab}</h2>
         </CardHeader>
         <CardBody className="space-y-4">
           <Input
@@ -217,28 +218,28 @@ export const PaymentsPage: React.FC = () => {
       {/* Transaction History */}
       <Card>
         <CardHeader>
-          <h2 className="text-lg font-medium text-gray-900">Transaction History</h2>
+          <h2 className="text-lg font-medium text-gray-900 dark:text-white">Transaction History</h2>
         </CardHeader>
         <CardBody>
           {transactions.length === 0 ? (
             <div className="text-center py-8">
-              <TrendingUp size={48} className="mx-auto text-gray-300 mb-4" />
-              <p className="text-gray-500">No transactions yet</p>
+              <TrendingUp size={48} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
+              <p className="text-gray-500 dark:text-gray-400">No transactions yet</p>
             </div>
           ) : (
             <div className="space-y-3">
               {transactions.map(tx => (
-                <div key={tx._id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                <div key={tx._id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50">
                   <div className="flex items-center gap-4">
-                    <div className="p-3 bg-gray-50 rounded-full">
+                    <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-full">
                       {getTransactionIcon(tx.type)}
                     </div>
                     <div>
-                      <h3 className="font-medium text-gray-900 capitalize">{tx.type}</h3>
-                      <p className="text-sm text-gray-500">{tx.description || `${tx.type} transaction`}</p>
+                      <h3 className="font-medium text-gray-900 dark:text-white capitalize">{tx.type}</h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{tx.description || `${tx.type} transaction`}</p>
                       <div className="flex items-center gap-2 mt-1">
-                        <Clock size={12} className="text-gray-400" />
-                        <span className="text-xs text-gray-400">
+                        <Clock size={12} className="text-gray-400 dark:text-gray-500" />
+                        <span className="text-xs text-gray-400 dark:text-gray-500">
                           {format(new Date(tx.createdAt), 'MMM d, yyyy h:mm a')}
                         </span>
                       </div>

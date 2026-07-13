@@ -83,8 +83,8 @@ export const DealsPage: React.FC = () => {
     <div className="space-y-6 animate-fade-in">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Investment Deals</h1>
-          <p className="text-gray-600">Track and manage your investment pipeline</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Investment Deals</h1>
+          <p className="text-gray-600 dark:text-gray-400">Track and manage your investment pipeline</p>
         </div>
         
         <Button>
@@ -97,12 +97,12 @@ export const DealsPage: React.FC = () => {
         <Card>
           <CardBody>
             <div className="flex items-center">
-              <div className="p-3 bg-primary-100 rounded-lg mr-3">
-                <DollarSign size={20} className="text-primary-600" />
+              <div className="p-3 bg-primary-100 dark:bg-primary-900/30 rounded-lg mr-3">
+                <DollarSign size={20} className="text-primary-600 dark:text-primary-400" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Total Investment</p>
-                <p className="text-lg font-semibold text-gray-900">$4.3M</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Total Investment</p>
+                <p className="text-lg font-semibold text-gray-900 dark:text-white">$4.3M</p>
               </div>
             </div>
           </CardBody>
@@ -111,12 +111,12 @@ export const DealsPage: React.FC = () => {
         <Card>
           <CardBody>
             <div className="flex items-center">
-              <div className="p-3 bg-secondary-100 rounded-lg mr-3">
-                <TrendingUp size={20} className="text-secondary-600" />
+              <div className="p-3 bg-secondary-100 dark:bg-secondary-900/30 rounded-lg mr-3">
+                <TrendingUp size={20} className="text-secondary-600 dark:text-secondary-400" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Active Deals</p>
-                <p className="text-lg font-semibold text-gray-900">8</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Active Deals</p>
+                <p className="text-lg font-semibold text-gray-900 dark:text-white">8</p>
               </div>
             </div>
           </CardBody>
@@ -125,12 +125,12 @@ export const DealsPage: React.FC = () => {
         <Card>
           <CardBody>
             <div className="flex items-center">
-              <div className="p-3 bg-accent-100 rounded-lg mr-3">
-                <Users size={20} className="text-accent-600" />
+              <div className="p-3 bg-accent-100 dark:bg-accent-900/30 rounded-lg mr-3">
+                <Users size={20} className="text-accent-600 dark:text-accent-400" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Portfolio Companies</p>
-                <p className="text-lg font-semibold text-gray-900">12</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Portfolio Companies</p>
+                <p className="text-lg font-semibold text-gray-900 dark:text-white">12</p>
               </div>
             </div>
           </CardBody>
@@ -139,12 +139,12 @@ export const DealsPage: React.FC = () => {
         <Card>
           <CardBody>
             <div className="flex items-center">
-              <div className="p-3 bg-success-100 rounded-lg mr-3">
-                <Calendar size={20} className="text-success-600" />
+              <div className="p-3 bg-success-100 dark:bg-green-900/30 rounded-lg mr-3">
+                <Calendar size={20} className="text-success-600 dark:text-green-400" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Closed This Month</p>
-                <p className="text-lg font-semibold text-gray-900">2</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Closed This Month</p>
+                <p className="text-lg font-semibold text-gray-900 dark:text-white">2</p>
               </div>
             </div>
           </CardBody>
@@ -165,7 +165,7 @@ export const DealsPage: React.FC = () => {
         
         <div className="w-full md:w-1/3">
           <div className="flex items-center gap-2">
-            <Filter size={18} className="text-gray-500" />
+            <Filter size={18} className="text-gray-500 dark:text-gray-400" />
             <div className="flex flex-wrap gap-2">
               {statuses.map(status => (
                 <Badge
@@ -185,39 +185,39 @@ export const DealsPage: React.FC = () => {
       {/* Deals table */}
       <Card>
         <CardHeader>
-          <h2 className="text-lg font-medium text-gray-900">Active Deals</h2>
+          <h2 className="text-lg font-medium text-gray-900 dark:text-white">Active Deals</h2>
         </CardHeader>
         <CardBody>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <tr className="border-b border-gray-200 dark:border-gray-700">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Startup
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Amount
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Equity
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Stage
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Last Activity
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                 {deals.map(deal => (
-                  <tr key={deal.id} className="hover:bg-gray-50">
+                  <tr key={deal.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <Avatar
@@ -227,20 +227,21 @@ export const DealsPage: React.FC = () => {
                           className="flex-shrink-0"
                         />
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">
                             {deal.startup.name}
                           </div>
-                          <div className="text-sm text-gray-500">
+                      <div className="text-sm text-gray-500 dark:text-gray-400">
+                        {new Date(deal.lastActivity).toLocaleDateString()}
                             {deal.startup.industry}
                           </div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{deal.amount}</div>
+                      <div className="text-sm text-gray-900 dark:text-white">{deal.amount}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{deal.equity}</div>
+                      <div className="text-sm text-gray-900 dark:text-white">{deal.equity}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <Badge variant={getStatusColor(deal.status)}>
@@ -248,11 +249,10 @@ export const DealsPage: React.FC = () => {
                       </Badge>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{deal.stage}</div>
+                      <div className="text-sm text-gray-900 dark:text-white">{deal.stage}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">
-                        {new Date(deal.lastActivity).toLocaleDateString()}
+                      <div className="text-sm text-gray-500 dark:text-gray-400">
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

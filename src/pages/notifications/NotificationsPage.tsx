@@ -59,8 +59,8 @@ export const NotificationsPage: React.FC = () => {
     <div className="space-y-6 animate-fade-in">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Notifications</h1>
-          <p className="text-gray-600">Stay updated with your network activity</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Notifications</h1>
+          <p className="text-gray-600 dark:text-gray-400">Stay updated with your network activity</p>
         </div>
         
         <Button variant="outline" size="sm">
@@ -73,7 +73,7 @@ export const NotificationsPage: React.FC = () => {
           <Card
             key={notification.id}
             className={`transition-colors duration-200 ${
-              notification.unread ? 'bg-primary-50' : ''
+              notification.unread ? 'bg-primary-50 dark:bg-primary-900/20' : ''
             }`}
           >
             <CardBody className="flex items-start p-4">
@@ -86,7 +86,7 @@ export const NotificationsPage: React.FC = () => {
               
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="font-medium text-gray-900">
+                  <span className="font-medium text-gray-900 dark:text-white">
                     {notification.user.name}
                   </span>
                   {notification.unread && (
@@ -94,11 +94,11 @@ export const NotificationsPage: React.FC = () => {
                   )}
                 </div>
                 
-                <p className="text-gray-600 mt-1">
+                <p className="text-gray-600 dark:text-gray-400 mt-1">
                   {notification.content}
                 </p>
                 
-                <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
+                <div className="flex items-center gap-2 mt-2 text-sm text-gray-500 dark:text-gray-400">
                   {getNotificationIcon(notification.type)}
                   <span>{notification.time}</span>
                 </div>

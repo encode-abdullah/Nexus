@@ -239,8 +239,8 @@ export const DocumentsPage: React.FC = () => {
     <div className="space-y-6 animate-fade-in">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Documents</h1>
-          <p className="text-gray-600">Manage your important files and e-signatures</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Documents</h1>
+          <p className="text-gray-600 dark:text-gray-400">Manage your important files and e-signatures</p>
         </div>
         <Button leftIcon={<Upload size={18} />} onClick={() => setShowUploadModal(true)}>Upload Document</Button>
       </div>
@@ -250,19 +250,19 @@ export const DocumentsPage: React.FC = () => {
         <CardBody className="p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-primary-50 rounded-full"><FileText size={24} className="text-primary-600" /></div>
+              <div className="p-3 bg-primary-50 dark:bg-primary-900/30 rounded-full"><FileText size={24} className="text-primary-600 dark:text-primary-400" /></div>
               <div>
-                <p className="text-sm text-gray-500">Total Documents</p>
-                <p className="text-lg font-semibold text-gray-900">{documents.length}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Total Documents</p>
+                <p className="text-lg font-semibold text-gray-900 dark:text-white">{documents.length}</p>
               </div>
             </div>
             <div className="flex gap-4">
               <div className="text-center">
-                <p className="text-sm text-gray-500">Signed</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Signed</p>
                 <p className="text-lg font-semibold text-green-600">{documents.filter(d => d.status === 'signed').length}</p>
               </div>
               <div className="text-center">
-                <p className="text-sm text-gray-500">Pending</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Pending</p>
                 <p className="text-lg font-semibold text-yellow-600">{documents.filter(d => d.status === 'pending_signature').length}</p>
               </div>
             </div>
@@ -272,26 +272,26 @@ export const DocumentsPage: React.FC = () => {
 
       {/* Document List */}
       <Card>
-        <CardHeader><h2 className="text-lg font-medium text-gray-900">All Documents</h2></CardHeader>
+        <CardHeader><h2 className="text-lg font-medium text-gray-900 dark:text-white">All Documents</h2></CardHeader>
         <CardBody>
           {documents.length === 0 ? (
             <div className="text-center py-12">
-              <FileText size={48} className="mx-auto text-gray-300 mb-4" />
-              <p className="text-gray-500">No documents yet</p>
-              <p className="text-sm text-gray-400 mt-1">Upload your first document to get started</p>
+              <FileText size={48} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
+              <p className="text-gray-500 dark:text-gray-400">No documents yet</p>
+              <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">Upload your first document to get started</p>
             </div>
           ) : (
             <div className="space-y-2">
               {documents.map(doc => (
-                <div key={doc._id} className="flex items-center p-4 hover:bg-gray-50 rounded-lg transition-colors duration-200">
-                  <div className="p-2 bg-gray-50 rounded-lg mr-4">{getFileIcon(doc.type)}</div>
+                <div key={doc._id} className="flex items-center p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg transition-colors duration-200">
+                  <div className="p-2 bg-gray-50 dark:bg-gray-700 rounded-lg mr-4">{getFileIcon(doc.type)}</div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <h3 className="text-sm font-medium text-gray-900 truncate">{doc.name}</h3>
+                      <h3 className="text-sm font-medium text-gray-900 dark:text-white truncate">{doc.name}</h3>
                       <Badge variant={getStatusColor(doc.status) as any} size="sm">{doc.status.replace('_', ' ')}</Badge>
                       {doc.shared && <Badge variant="secondary" size="sm">Shared</Badge>}
                     </div>
-                    <div className="flex items-center gap-4 mt-1 text-sm text-gray-500">
+                    <div className="flex items-center gap-4 mt-1 text-sm text-gray-500 dark:text-gray-400">
                       <span>{formatFileSize(doc.size)}</span>
                       <span>v{doc.version}</span>
                       <span>{format(new Date(doc.createdAt), 'MMM d, yyyy')}</span>
@@ -323,8 +323,8 @@ export const DocumentsPage: React.FC = () => {
       {/* Upload Modal */}
       {showUploadModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Upload Document</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Upload Document</h2>
             <input
               ref={fileInputRef}
               type="file"
@@ -333,16 +333,16 @@ export const DocumentsPage: React.FC = () => {
               onChange={handleFileInputChange}
             />
             {selectedFile ? (
-              <div className="border border-gray-200 rounded-lg p-4">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-primary-50 rounded-lg">
-                    <FileText size={24} className="text-primary-600" />
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-primary-50 dark:bg-primary-900/30 rounded-lg">
+                      <FileText size={24} className="text-primary-600 dark:text-primary-400" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">{selectedFile.name}</p>
-                    <p className="text-xs text-gray-500">{(selectedFile.size / 1024).toFixed(1)} KB</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{selectedFile.name}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">{(selectedFile.size / 1024).toFixed(1)} KB</p>
                   </div>
-                  <button onClick={() => setSelectedFile(null)} className="text-gray-400 hover:text-gray-600">
+                  <button onClick={() => setSelectedFile(null)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
                     <X size={18} />
                   </button>
                 </div>
@@ -356,12 +356,12 @@ export const DocumentsPage: React.FC = () => {
                     fileInputRef.current?.click();
                   }
                 }}
-                className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${isDragActive ? 'border-primary-500 bg-primary-50' : 'border-gray-300 hover:border-primary-400'}`}
+                className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${isDragActive ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20' : 'border-gray-300 dark:border-gray-600 hover:border-primary-400'}`}
               >
                 <input {...getInputProps()} />
-                <Upload size={48} className="mx-auto text-gray-400 mb-4" />
-                <p className="text-gray-600">{isDragActive ? 'Drop your file here' : 'Drag & drop a file, or click to select'}</p>
-                <p className="text-sm text-gray-400 mt-2">PDF, DOC, DOCX, JPG, PNG up to 10MB</p>
+                <Upload size={48} className="mx-auto text-gray-400 dark:text-gray-500 mb-4" />
+                <p className="text-gray-600 dark:text-gray-400">{isDragActive ? 'Drop your file here' : 'Drag & drop a file, or click to select'}</p>
+                <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">PDF, DOC, DOCX, JPG, PNG up to 10MB</p>
               </div>
             )}
             <div className="flex justify-end gap-3 mt-6">
@@ -377,9 +377,9 @@ export const DocumentsPage: React.FC = () => {
       {/* PDF/Image Preview Modal */}
       {selectedDoc && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
-            <div className="flex justify-between items-center p-4 border-b">
-              <h2 className="text-xl font-bold text-gray-900">{selectedDoc.name}</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">{selectedDoc.name}</h2>
               <div className="flex items-center gap-2">
                 <Badge variant={getStatusColor(selectedDoc.status) as any}>{selectedDoc.status.replace('_', ' ')}</Badge>
                 <Button variant="ghost" size="sm" onClick={() => setSelectedDoc(null)}><X size={20} /></Button>
@@ -389,31 +389,31 @@ export const DocumentsPage: React.FC = () => {
               {selectedDoc.type.includes('pdf') ? (
                 <iframe
                   src={selectedDoc.url}
-                  className="w-full h-[600px] border border-gray-200 rounded-md"
+                  className="w-full h-[600px] border border-gray-200 dark:border-gray-700 rounded-md"
                   title={selectedDoc.name}
                 />
               ) : selectedDoc.type.includes('image') ? (
                 <img
                   src={selectedDoc.url}
                   alt={selectedDoc.name}
-                  className="max-w-full h-auto mx-auto border border-gray-200 rounded-md"
+                  className="max-w-full h-auto mx-auto border border-gray-200 dark:border-gray-700 rounded-md"
                 />
               ) : (
                 <div className="text-center py-12">
-                  <FileText size={64} className="mx-auto text-gray-300 mb-4" />
-                  <p className="text-gray-500">Preview not available for this file type</p>
+                  <FileText size={64} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
+                  <p className="text-gray-500 dark:text-gray-400">Preview not available for this file type</p>
                 </div>
               )}
               {/* Signatures Section */}
               {selectedDoc.signatures.length > 0 && (
-                <div className="mt-4 pt-4 border-t">
-                  <h3 className="font-medium text-gray-900 mb-3">Signatures</h3>
+                <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                  <h3 className="font-medium text-gray-900 dark:text-white mb-3">Signatures</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {selectedDoc.signatures.map((sig, idx) => (
-                      <div key={idx} className="p-3 bg-gray-50 rounded-md border">
+                      <div key={idx} className="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-md border border-gray-200 dark:border-gray-600">
                         <div className="flex items-center justify-between mb-2">
                           <p className="text-sm font-medium">{sig.userId.name}</p>
-                          <p className="text-xs text-gray-500">{format(new Date(sig.signedAt), 'MMM d, yyyy h:mm a')}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">{format(new Date(sig.signedAt), 'MMM d, yyyy h:mm a')}</p>
                         </div>
                         {sig.signatureImage.startsWith('data:') ? (
                           <img src={sig.signatureImage} alt="Signature" className="h-16 border bg-white rounded p-1" />
@@ -433,9 +433,9 @@ export const DocumentsPage: React.FC = () => {
       {/* E-Signature Modal */}
       {showSignModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-lg">
-            <h2 className="text-xl font-bold text-gray-900 mb-2">Sign Document</h2>
-            <p className="text-gray-600 mb-4">Sign "{showSignModal.name}"</p>
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-lg">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Sign Document</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">Sign "{showSignModal.name}"</p>
             <SignaturePad
               onSign={(dataUrl) => handleSign(showSignModal._id, dataUrl)}
               onClear={() => {}}

@@ -64,7 +64,6 @@ router.post('/deposit',
   auth,
   [
     body('amount').isFloat({ min: 1 }).withMessage('Amount must be at least 1'),
-    body('paymentMethod').notEmpty().withMessage('Payment method is required'),
     body('description').optional().trim()
   ],
   validate,

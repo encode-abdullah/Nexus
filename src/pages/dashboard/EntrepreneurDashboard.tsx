@@ -51,8 +51,8 @@ export const EntrepreneurDashboard: React.FC = () => {
     <div className="space-y-6 animate-fade-in">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Welcome, {user.name}</h1>
-          <p className="text-gray-600">Here's what's happening with your startup today</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Welcome, {user.name}</h1>
+          <p className="text-gray-600 dark:text-gray-400">Here's what's happening with your startup today</p>
         </div>
         
         <Link to="/investors">
@@ -66,29 +66,29 @@ export const EntrepreneurDashboard: React.FC = () => {
       
       {/* Summary cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="bg-primary-50 border border-primary-100">
+        <Card className="bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800">
           <CardBody>
             <div className="flex items-center">
-              <div className="p-3 bg-primary-100 rounded-full mr-4">
-                <Bell size={20} className="text-primary-700" />
+              <div className="p-3 bg-primary-100 dark:bg-primary-800 rounded-full mr-4">
+                <Bell size={20} className="text-primary-700 dark:text-primary-300" />
               </div>
               <div>
-                <p className="text-sm font-medium text-primary-700">Pending Requests</p>
-                <h3 className="text-xl font-semibold text-primary-900">{pendingRequests.length}</h3>
+                <p className="text-sm font-medium text-primary-700 dark:text-primary-300">Pending Requests</p>
+                <h3 className="text-xl font-semibold text-primary-900 dark:text-primary-200">{pendingRequests.length}</h3>
               </div>
             </div>
           </CardBody>
         </Card>
         
-        <Card className="bg-secondary-50 border border-secondary-100">
+        <Card className="bg-secondary-50 dark:bg-secondary-900/20 border border-secondary-100 dark:border-secondary-800">
           <CardBody>
             <div className="flex items-center">
-              <div className="p-3 bg-secondary-100 rounded-full mr-4">
-                <Users size={20} className="text-secondary-700" />
+              <div className="p-3 bg-secondary-100 dark:bg-secondary-800 rounded-full mr-4">
+                <Users size={20} className="text-secondary-700 dark:text-secondary-300" />
               </div>
               <div>
-                <p className="text-sm font-medium text-secondary-700">Total Connections</p>
-                <h3 className="text-xl font-semibold text-secondary-900">
+                <p className="text-sm font-medium text-secondary-700 dark:text-secondary-300">Total Connections</p>
+                <h3 className="text-xl font-semibold text-secondary-900 dark:text-secondary-200">
                   {collaborationRequests.filter(req => req.status === 'accepted').length}
                 </h3>
               </div>
@@ -96,29 +96,29 @@ export const EntrepreneurDashboard: React.FC = () => {
           </CardBody>
         </Card>
         
-        <Card className="bg-accent-50 border border-accent-100">
+        <Card className="bg-accent-50 dark:bg-accent-900/20 border border-accent-100 dark:border-accent-800">
           <CardBody>
             <div className="flex items-center">
-              <div className="p-3 bg-accent-100 rounded-full mr-4">
-                <Calendar size={20} className="text-accent-700" />
+              <div className="p-3 bg-accent-100 dark:bg-accent-800 rounded-full mr-4">
+                <Calendar size={20} className="text-accent-700 dark:text-accent-300" />
               </div>
               <div>
-                <p className="text-sm font-medium text-accent-700">Upcoming Meetings</p>
-                <h3 className="text-xl font-semibold text-accent-900">2</h3>
+                <p className="text-sm font-medium text-accent-700 dark:text-accent-300">Upcoming Meetings</p>
+                <h3 className="text-xl font-semibold text-accent-900 dark:text-accent-200">2</h3>
               </div>
             </div>
           </CardBody>
         </Card>
         
-        <Card className="bg-success-50 border border-success-100">
+        <Card className="bg-success-50 dark:bg-green-900/20 border border-success-100 dark:border-green-800">
           <CardBody>
             <div className="flex items-center">
-              <div className="p-3 bg-green-100 rounded-full mr-4">
-                <TrendingUp size={20} className="text-success-700" />
+              <div className="p-3 bg-green-100 dark:bg-green-800 rounded-full mr-4">
+                <TrendingUp size={20} className="text-success-700 dark:text-green-300" />
               </div>
               <div>
-                <p className="text-sm font-medium text-success-700">Profile Views</p>
-                <h3 className="text-xl font-semibold text-success-900">24</h3>
+                <p className="text-sm font-medium text-success-700 dark:text-green-300">Profile Views</p>
+                <h3 className="text-xl font-semibold text-success-900 dark:text-green-200">24</h3>
               </div>
             </div>
           </CardBody>
@@ -130,7 +130,7 @@ export const EntrepreneurDashboard: React.FC = () => {
         <div className="lg:col-span-2 space-y-4">
           <Card>
             <CardHeader className="flex justify-between items-center">
-              <h2 className="text-lg font-medium text-gray-900">Collaboration Requests</h2>
+              <h2 className="text-lg font-medium text-gray-900 dark:text-white">Collaboration Requests</h2>
               <Badge variant="primary">{pendingRequests.length} pending</Badge>
             </CardHeader>
             
@@ -147,11 +147,11 @@ export const EntrepreneurDashboard: React.FC = () => {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
-                    <AlertCircle size={24} className="text-gray-500" />
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 mb-4">
+                    <AlertCircle size={24} className="text-gray-500 dark:text-gray-400" />
                   </div>
-                  <p className="text-gray-600">No collaboration requests yet</p>
-                  <p className="text-sm text-gray-500 mt-1">When investors are interested in your startup, their requests will appear here</p>
+                  <p className="text-gray-600 dark:text-gray-400">No collaboration requests yet</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">When investors are interested in your startup, their requests will appear here</p>
                 </div>
               )}
             </CardBody>
@@ -162,8 +162,8 @@ export const EntrepreneurDashboard: React.FC = () => {
         <div className="space-y-4">
           <Card>
             <CardHeader className="flex justify-between items-center">
-              <h2 className="text-lg font-medium text-gray-900">Recommended Investors</h2>
-              <Link to="/investors" className="text-sm font-medium text-primary-600 hover:text-primary-500">
+              <h2 className="text-lg font-medium text-gray-900 dark:text-white">Recommended Investors</h2>
+              <Link to="/investors" className="text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500">
                 View all
               </Link>
             </CardHeader>

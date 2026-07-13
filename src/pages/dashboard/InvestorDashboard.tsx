@@ -67,8 +67,8 @@ export const InvestorDashboard: React.FC = () => {
     <div className="space-y-6 animate-fade-in">
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Discover Startups</h1>
-          <p className="text-gray-600">Find and connect with promising entrepreneurs</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Discover Startups</h1>
+          <p className="text-gray-600 dark:text-gray-400">Find and connect with promising entrepreneurs</p>
         </div>
         
         <Link to="/entrepreneurs">
@@ -94,8 +94,8 @@ export const InvestorDashboard: React.FC = () => {
         
         <div className="w-full md:w-1/3">
           <div className="flex items-center space-x-2">
-            <Filter size={18} className="text-gray-500" />
-            <span className="text-sm font-medium text-gray-700">Filter by:</span>
+            <Filter size={18} className="text-gray-500 dark:text-gray-400" />
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Filter by:</span>
             
             <div className="flex flex-wrap gap-2">
               {industries.map(industry => (
@@ -115,43 +115,43 @@ export const InvestorDashboard: React.FC = () => {
       
       {/* Stats summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="bg-primary-50 border border-primary-100">
+        <Card className="bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800">
           <CardBody>
             <div className="flex items-center">
-              <div className="p-3 bg-primary-100 rounded-full mr-4">
-                <Users size={20} className="text-primary-700" />
+              <div className="p-3 bg-primary-100 dark:bg-primary-800 rounded-full mr-4">
+                <Users size={20} className="text-primary-700 dark:text-primary-300" />
               </div>
               <div>
-                <p className="text-sm font-medium text-primary-700">Total Startups</p>
-                <h3 className="text-xl font-semibold text-primary-900">{entrepreneurs.length}</h3>
+                <p className="text-sm font-medium text-primary-700 dark:text-primary-300">Total Startups</p>
+                <h3 className="text-xl font-semibold text-primary-900 dark:text-primary-200">{entrepreneurs.length}</h3>
               </div>
             </div>
           </CardBody>
         </Card>
         
-        <Card className="bg-secondary-50 border border-secondary-100">
+        <Card className="bg-secondary-50 dark:bg-secondary-900/20 border border-secondary-100 dark:border-secondary-800">
           <CardBody>
             <div className="flex items-center">
-              <div className="p-3 bg-secondary-100 rounded-full mr-4">
-                <PieChart size={20} className="text-secondary-700" />
+              <div className="p-3 bg-secondary-100 dark:bg-secondary-800 rounded-full mr-4">
+                <PieChart size={20} className="text-secondary-700 dark:text-secondary-300" />
               </div>
               <div>
-                <p className="text-sm font-medium text-secondary-700">Industries</p>
-                <h3 className="text-xl font-semibold text-secondary-900">{industries.length}</h3>
+                <p className="text-sm font-medium text-secondary-700 dark:text-secondary-300">Industries</p>
+                <h3 className="text-xl font-semibold text-secondary-900 dark:text-secondary-200">{industries.length}</h3>
               </div>
             </div>
           </CardBody>
         </Card>
         
-        <Card className="bg-accent-50 border border-accent-100">
+        <Card className="bg-accent-50 dark:bg-accent-900/20 border border-accent-100 dark:border-accent-800">
           <CardBody>
             <div className="flex items-center">
-              <div className="p-3 bg-accent-100 rounded-full mr-4">
-                <Users size={20} className="text-accent-700" />
+              <div className="p-3 bg-accent-100 dark:bg-accent-800 rounded-full mr-4">
+                <Users size={20} className="text-accent-700 dark:text-accent-300" />
               </div>
               <div>
-                <p className="text-sm font-medium text-accent-700">Your Connections</p>
-                <h3 className="text-xl font-semibold text-accent-900">
+                <p className="text-sm font-medium text-accent-700 dark:text-accent-300">Your Connections</p>
+                <h3 className="text-xl font-semibold text-accent-900 dark:text-accent-200">
                   {sentRequests.filter(req => req.status === 'accepted').length}
                 </h3>
               </div>
@@ -164,7 +164,7 @@ export const InvestorDashboard: React.FC = () => {
       <div>
         <Card>
           <CardHeader>
-            <h2 className="text-lg font-medium text-gray-900">Featured Startups</h2>
+            <h2 className="text-lg font-medium text-gray-900 dark:text-white">Featured Startups</h2>
           </CardHeader>
           
           <CardBody>
@@ -179,7 +179,7 @@ export const InvestorDashboard: React.FC = () => {
               </div>
             ) : (
               <div className="text-center py-8">
-                <p className="text-gray-600">No startups match your filters</p>
+                <p className="text-gray-600 dark:text-gray-400">No startups match your filters</p>
                 <Button 
                   variant="outline" 
                   className="mt-2"

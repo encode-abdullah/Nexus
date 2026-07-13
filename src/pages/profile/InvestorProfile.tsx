@@ -33,7 +33,7 @@ export const InvestorProfile: React.FC = () => {
   if (loading) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">Loading profile...</p>
+        <p className="text-gray-500 dark:text-gray-400">Loading profile...</p>
       </div>
     );
   }
@@ -41,8 +41,8 @@ export const InvestorProfile: React.FC = () => {
   if (!investor || investor.role !== 'investor') {
     return (
       <div className="text-center py-12">
-        <h2 className="text-2xl font-bold text-gray-900">Investor not found</h2>
-        <p className="text-gray-600 mt-2">The investor profile you're looking for doesn't exist or has been removed.</p>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Investor not found</h2>
+        <p className="text-gray-600 dark:text-gray-400 mt-2">The investor profile you're looking for doesn't exist or has been removed.</p>
         <Link to="/dashboard/entrepreneur">
           <Button variant="outline" className="mt-4">Back to Dashboard</Button>
         </Link>
@@ -66,8 +66,8 @@ export const InvestorProfile: React.FC = () => {
             />
 
             <div className="mt-4 sm:mt-0 text-center sm:text-left">
-              <h1 className="text-2xl font-bold text-gray-900">{investor.name}</h1>
-              <p className="text-gray-600 flex items-center justify-center sm:justify-start mt-1">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{investor.name}</h1>
+              <p className="text-gray-600 dark:text-gray-400 flex items-center justify-center sm:justify-start mt-1">
                 <Building2 size={16} className="mr-1" />
                 Investor • {investor.totalInvestments} investments
               </p>
@@ -108,21 +108,21 @@ export const InvestorProfile: React.FC = () => {
         <div className="lg:col-span-2 space-y-6">
           <Card>
             <CardHeader>
-              <h2 className="text-lg font-medium text-gray-900">About</h2>
+              <h2 className="text-lg font-medium text-gray-900 dark:text-white">About</h2>
             </CardHeader>
             <CardBody>
-              <p className="text-gray-700">{investor.bio}</p>
+              <p className="text-gray-700 dark:text-gray-300">{investor.bio}</p>
             </CardBody>
           </Card>
 
           <Card>
             <CardHeader>
-              <h2 className="text-lg font-medium text-gray-900">Investment Interests</h2>
+              <h2 className="text-lg font-medium text-gray-900 dark:text-white">Investment Interests</h2>
             </CardHeader>
             <CardBody>
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-md font-medium text-gray-900">Industries</h3>
+                  <h3 className="text-md font-medium text-gray-900 dark:text-white">Industries</h3>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {investor.investmentInterests?.map((interest, index) => (
                       <Badge key={index} variant="primary" size="md">{interest}</Badge>
@@ -130,7 +130,7 @@ export const InvestorProfile: React.FC = () => {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-md font-medium text-gray-900">Investment Stages</h3>
+                  <h3 className="text-md font-medium text-gray-900 dark:text-white">Investment Stages</h3>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {investor.investmentStage?.map((stage, index) => (
                       <Badge key={index} variant="secondary" size="md">{stage}</Badge>
@@ -143,19 +143,19 @@ export const InvestorProfile: React.FC = () => {
 
           <Card>
             <CardHeader className="flex justify-between items-center">
-              <h2 className="text-lg font-medium text-gray-900">Portfolio Companies</h2>
-              <span className="text-sm text-gray-500">{investor.portfolioCompanies?.length || 0} companies</span>
+              <h2 className="text-lg font-medium text-gray-900 dark:text-white">Portfolio Companies</h2>
+              <span className="text-sm text-gray-500 dark:text-gray-400">{investor.portfolioCompanies?.length || 0} companies</span>
             </CardHeader>
             <CardBody>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {investor.portfolioCompanies?.map((company, index) => (
-                  <div key={index} className="flex items-center p-3 border border-gray-200 rounded-md">
-                    <div className="p-3 bg-primary-50 rounded-md mr-3">
+                  <div key={index} className="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-md">
+                    <div className="p-3 bg-primary-50 dark:bg-primary-900/30 rounded-md mr-3">
                       <Briefcase size={18} className="text-primary-700" />
                     </div>
                     <div>
-                      <h3 className="text-sm font-medium text-gray-900">{company}</h3>
-                      <p className="text-xs text-gray-500">Portfolio</p>
+                      <h3 className="text-sm font-medium text-gray-900 dark:text-white">{company}</h3>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Portfolio</p>
                     </div>
                   </div>
                 ))}
@@ -167,19 +167,19 @@ export const InvestorProfile: React.FC = () => {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <h2 className="text-lg font-medium text-gray-900">Investment Details</h2>
+              <h2 className="text-lg font-medium text-gray-900 dark:text-white">Investment Details</h2>
             </CardHeader>
             <CardBody>
               <div className="space-y-4">
                 <div>
-                  <span className="text-sm text-gray-500">Investment Range</span>
-                  <p className="text-lg font-semibold text-gray-900">
+                  <span className="text-sm text-gray-500 dark:text-gray-400">Investment Range</span>
+                  <p className="text-lg font-semibold text-gray-900 dark:text-white">
                     {investor.minimumInvestment} - {investor.maximumInvestment}
                   </p>
                 </div>
                 <div>
-                  <span className="text-sm text-gray-500">Total Investments</span>
-                  <p className="text-md font-medium text-gray-900">{investor.totalInvestments} companies</p>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">Total Investments</span>
+                  <p className="text-md font-medium text-gray-900 dark:text-white">{investor.totalInvestments} companies</p>
                 </div>
               </div>
             </CardBody>
@@ -187,23 +187,23 @@ export const InvestorProfile: React.FC = () => {
 
           <Card>
             <CardHeader>
-              <h2 className="text-lg font-medium text-gray-900">Investment Stats</h2>
+              <h2 className="text-lg font-medium text-gray-900 dark:text-white">Investment Stats</h2>
             </CardHeader>
             <CardBody>
               <div className="space-y-3">
-                <div className="p-3 border border-gray-200 rounded-md bg-gray-50">
+                <div className="p-3 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-700/50">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h3 className="text-sm font-medium text-gray-900">Successful Exits</h3>
+                      <h3 className="text-sm font-medium text-gray-900 dark:text-white">Successful Exits</h3>
                       <p className="text-xl font-semibold text-primary-700 mt-1">4</p>
                     </div>
                     <BarChart3 size={24} className="text-primary-600" />
                   </div>
                 </div>
-                <div className="p-3 border border-gray-200 rounded-md bg-gray-50">
+                <div className="p-3 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-700/50">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h3 className="text-sm font-medium text-gray-900">Avg. ROI</h3>
+                      <h3 className="text-sm font-medium text-gray-900 dark:text-white">Avg. ROI</h3>
                       <p className="text-xl font-semibold text-primary-700 mt-1">3.2x</p>
                     </div>
                     <BarChart3 size={24} className="text-primary-600" />

@@ -27,8 +27,8 @@ export const HelpPage: React.FC = () => {
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Help & Support</h1>
-        <p className="text-gray-600">Find answers to common questions or get in touch with our support team</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Help & Support</h1>
+        <p className="text-gray-600 dark:text-gray-400">Find answers to common questions or get in touch with our support team</p>
       </div>
       
       {/* Search */}
@@ -44,11 +44,11 @@ export const HelpPage: React.FC = () => {
         {/* Quick links */}
         <Card>
           <CardBody className="text-center p-6">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-50 rounded-lg mb-4">
-              <Book size={24} className="text-primary-600" />
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-50 dark:bg-primary-900/30 rounded-lg mb-4">
+              <Book size={24} className="text-primary-600 dark:text-primary-400" />
             </div>
-            <h2 className="text-lg font-medium text-gray-900">Documentation</h2>
-            <p className="text-sm text-gray-600 mt-2">
+            <h2 className="text-lg font-medium text-gray-900 dark:text-white">Documentation</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
               Browse our detailed documentation and guides
             </p>
             <Button
@@ -63,11 +63,11 @@ export const HelpPage: React.FC = () => {
         
         <Card>
           <CardBody className="text-center p-6">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-50 rounded-lg mb-4">
-              <MessageCircle size={24} className="text-primary-600" />
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-50 dark:bg-primary-900/30 rounded-lg mb-4">
+              <MessageCircle size={24} className="text-primary-600 dark:text-primary-400" />
             </div>
-            <h2 className="text-lg font-medium text-gray-900">Live Chat</h2>
-            <p className="text-sm text-gray-600 mt-2">
+            <h2 className="text-lg font-medium text-gray-900 dark:text-white">Live Chat</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
               Chat with our support team in real-time
             </p>
             <Button className="mt-4">
@@ -78,11 +78,11 @@ export const HelpPage: React.FC = () => {
         
         <Card>
           <CardBody className="text-center p-6">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-50 rounded-lg mb-4">
-              <Phone size={24} className="text-primary-600" />
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-50 dark:bg-primary-900/30 rounded-lg mb-4">
+              <Phone size={24} className="text-primary-600 dark:text-primary-400" />
             </div>
-            <h2 className="text-lg font-medium text-gray-900">Contact Us</h2>
-            <p className="text-sm text-gray-600 mt-2">
+            <h2 className="text-lg font-medium text-gray-900 dark:text-white">Contact Us</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
               Get help via email or phone
             </p>
             <Button
@@ -99,16 +99,16 @@ export const HelpPage: React.FC = () => {
       {/* FAQs */}
       <Card>
         <CardHeader>
-          <h2 className="text-lg font-medium text-gray-900">Frequently Asked Questions</h2>
+          <h2 className="text-lg font-medium text-gray-900 dark:text-white">Frequently Asked Questions</h2>
         </CardHeader>
         <CardBody>
           <div className="space-y-6">
             {faqs.map((faq, index) => (
-              <div key={index} className="border-b border-gray-200 last:border-0 pb-6 last:pb-0">
-                <h3 className="text-base font-medium text-gray-900 mb-2">
+              <div key={index} className="border-b border-gray-200 dark:border-gray-700 last:border-0 pb-6 last:pb-0">
+                <h3 className="text-base font-medium text-gray-900 dark:text-white mb-2">
                   {faq.question}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-400">
                   {faq.answer}
                 </p>
               </div>
@@ -120,7 +120,7 @@ export const HelpPage: React.FC = () => {
       {/* Contact form */}
       <Card>
         <CardHeader>
-          <h2 className="text-lg font-medium text-gray-900">Still need help?</h2>
+          <h2 className="text-lg font-medium text-gray-900 dark:text-white">Still need help?</h2>
         </CardHeader>
         <CardBody>
           <form className="space-y-6 max-w-2xl">
@@ -138,11 +138,11 @@ export const HelpPage: React.FC = () => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Message
               </label>
               <textarea
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                className="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
                 rows={4}
                 placeholder="How can we help you?"
               ></textarea>

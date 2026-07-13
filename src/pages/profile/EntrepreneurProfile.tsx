@@ -34,7 +34,7 @@ export const EntrepreneurProfile: React.FC = () => {
   if (loading) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">Loading profile...</p>
+        <p className="text-gray-500 dark:text-gray-400">Loading profile...</p>
       </div>
     );
   }
@@ -42,8 +42,8 @@ export const EntrepreneurProfile: React.FC = () => {
   if (!entrepreneur || entrepreneur.role !== 'entrepreneur') {
     return (
       <div className="text-center py-12">
-        <h2 className="text-2xl font-bold text-gray-900">Entrepreneur not found</h2>
-        <p className="text-gray-600 mt-2">The entrepreneur profile you're looking for doesn't exist or has been removed.</p>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Entrepreneur not found</h2>
+        <p className="text-gray-600 dark:text-gray-400 mt-2">The entrepreneur profile you're looking for doesn't exist or has been removed.</p>
         <Link to="/dashboard/investor">
           <Button variant="outline" className="mt-4">Back to Dashboard</Button>
         </Link>
@@ -83,8 +83,8 @@ export const EntrepreneurProfile: React.FC = () => {
             />
 
             <div className="mt-4 sm:mt-0 text-center sm:text-left">
-              <h1 className="text-2xl font-bold text-gray-900">{entrepreneur.name}</h1>
-              <p className="text-gray-600 flex items-center justify-center sm:justify-start mt-1">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{entrepreneur.name}</h1>
+              <p className="text-gray-600 dark:text-gray-400 flex items-center justify-center sm:justify-start mt-1">
                 <Building2 size={16} className="mr-1" />
                 Founder at {entrepreneur.startupName}
               </p>
@@ -143,32 +143,32 @@ export const EntrepreneurProfile: React.FC = () => {
         <div className="lg:col-span-2 space-y-6">
           <Card>
             <CardHeader>
-              <h2 className="text-lg font-medium text-gray-900">About</h2>
+              <h2 className="text-lg font-medium text-gray-900 dark:text-white">About</h2>
             </CardHeader>
             <CardBody>
-              <p className="text-gray-700">{entrepreneur.bio}</p>
+              <p className="text-gray-700 dark:text-gray-300">{entrepreneur.bio}</p>
             </CardBody>
           </Card>
 
           <Card>
             <CardHeader>
-              <h2 className="text-lg font-medium text-gray-900">Startup Overview</h2>
+              <h2 className="text-lg font-medium text-gray-900 dark:text-white">Startup Overview</h2>
             </CardHeader>
             <CardBody>
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-md font-medium text-gray-900">Problem Statement</h3>
-                  <p className="text-gray-700 mt-1">
+                  <h3 className="text-md font-medium text-gray-900 dark:text-white">Problem Statement</h3>
+                  <p className="text-gray-700 dark:text-gray-300 mt-1">
                     {entrepreneur?.pitchSummary?.split('.')[0]}.
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-md font-medium text-gray-900">Solution</h3>
-                  <p className="text-gray-700 mt-1">{entrepreneur.pitchSummary}</p>
+                  <h3 className="text-md font-medium text-gray-900 dark:text-white">Solution</h3>
+                  <p className="text-gray-700 dark:text-gray-300 mt-1">{entrepreneur.pitchSummary}</p>
                 </div>
                 <div>
-                  <h3 className="text-md font-medium text-gray-900">Market Opportunity</h3>
-                  <p className="text-gray-700 mt-1">
+                  <h3 className="text-md font-medium text-gray-900 dark:text-white">Market Opportunity</h3>
+                  <p className="text-gray-700 dark:text-gray-300 mt-1">
                     The {entrepreneur.industry} market is experiencing significant growth, with a projected CAGR of 14.5% through 2027.
                   </p>
                 </div>
@@ -178,21 +178,21 @@ export const EntrepreneurProfile: React.FC = () => {
 
           <Card>
             <CardHeader className="flex justify-between items-center">
-              <h2 className="text-lg font-medium text-gray-900">Team</h2>
-              <span className="text-sm text-gray-500">{entrepreneur.teamSize} members</span>
+              <h2 className="text-lg font-medium text-gray-900 dark:text-white">Team</h2>
+              <span className="text-sm text-gray-500 dark:text-gray-400">{entrepreneur.teamSize} members</span>
             </CardHeader>
             <CardBody>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex items-center p-3 border border-gray-200 rounded-md">
+                <div className="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-md">
                   <Avatar src={entrepreneur.avatarUrl} alt={entrepreneur.name} size="md" className="mr-3" />
                   <div>
-                    <h3 className="text-sm font-medium text-gray-900">{entrepreneur.name}</h3>
-                    <p className="text-xs text-gray-500">Founder & CEO</p>
+                    <h3 className="text-sm font-medium text-gray-900 dark:text-white">{entrepreneur.name}</h3>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Founder & CEO</p>
                   </div>
                 </div>
                 {entrepreneur.teamSize > 1 && (
-                  <div className="flex items-center justify-center p-3 border border-dashed border-gray-200 rounded-md">
-                    <p className="text-sm text-gray-500">+ {entrepreneur.teamSize - 1} more team members</p>
+                  <div className="flex items-center justify-center p-3 border border-dashed border-gray-200 dark:border-gray-700 rounded-md">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">+ {entrepreneur.teamSize - 1} more team members</p>
                   </div>
                 )}
               </div>
@@ -203,15 +203,15 @@ export const EntrepreneurProfile: React.FC = () => {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <h2 className="text-lg font-medium text-gray-900">Funding</h2>
+              <h2 className="text-lg font-medium text-gray-900 dark:text-white">Funding</h2>
             </CardHeader>
             <CardBody>
               <div className="space-y-4">
                 <div>
-                  <span className="text-sm text-gray-500">Current Round</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">Current Round</span>
                   <div className="flex items-center mt-1">
                     <DollarSign size={18} className="text-accent-600 mr-1" />
-                    <p className="text-lg font-semibold text-gray-900">{entrepreneur.fundingNeeded}</p>
+                    <p className="text-lg font-semibold text-gray-900 dark:text-white">{entrepreneur.fundingNeeded}</p>
                   </div>
                 </div>
               </div>
@@ -220,25 +220,25 @@ export const EntrepreneurProfile: React.FC = () => {
 
           <Card>
             <CardHeader>
-              <h2 className="text-lg font-medium text-gray-900">Documents</h2>
+              <h2 className="text-lg font-medium text-gray-900 dark:text-white">Documents</h2>
             </CardHeader>
             <CardBody>
               <div className="space-y-3">
-                <div className="flex items-center p-3 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors">
-                  <div className="p-2 bg-primary-50 rounded-md mr-3">
+                <div className="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                  <div className="p-2 bg-primary-50 dark:bg-primary-900/30 rounded-md mr-3">
                     <FileText size={18} className="text-primary-700" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-sm font-medium text-gray-900">Pitch Deck</h3>
-                    <p className="text-xs text-gray-500">Updated 2 months ago</p>
+                    <h3 className="text-sm font-medium text-gray-900 dark:text-white">Pitch Deck</h3>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Updated 2 months ago</p>
                   </div>
                   <Button variant="outline" size="sm">View</Button>
                 </div>
               </div>
 
               {!isCurrentUser && isInvestor && (
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                  <p className="text-sm text-gray-500">
+                <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     Request access to detailed documents and financials by sending a collaboration request.
                   </p>
                   {!hasRequestedCollaboration ? (
