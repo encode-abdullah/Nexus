@@ -156,9 +156,12 @@ export const DocumentsPage: React.FC = () => {
     }
   }, []);
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     maxFiles: 1,
+    noClick: false,
     accept: {
       'application/pdf': ['.pdf'],
       'image/jpeg': ['.jpg', '.jpeg'],
@@ -308,11 +311,27 @@ export const DocumentsPage: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Upload Document</h2>
-            <div {...getRootProps()} className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${isDragActive ? 'border-primary-500 bg-primary-50' : 'border-gray-300 hover:border-primary-400'}`}>
-              <input {...getInputProps()} />
+            <div
+              {...getRootProps()}
+              onClick={(e) => {
+                getRootProps().onClick?.(e as any);
+                if (!e.defaultPrevented) {
+                  fileInputRef.current?.click();
+                }
+              }}
+              className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${isDragActive ? 'border-primary-500 bg-primary-50' : 'border-gray-300 hover:border-primary-400'}`}
+            >
+              <input {...getInputProps()} ref={fileInputRef} />
               <Upload size={48} className="mx-auto text-gray-400 mb-4" />
               <p className="text-gray-600">{isDragActive ? 'Drop your file here' : 'Drag & drop a file, or click to select'}</p>
               <p className="text-sm text-gray-400 mt-2">PDF, DOC, DOCX, JPG, PNG up to 10MB</p>
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click(); }}
+                className="mt-3 px-4 py-2 text-sm font-medium text-primary-600 hover:text-primary-700 underline"
+              >
+                Browse files
+              </button>
             </div>
             <div className="flex justify-end gap-3 mt-6">
               <Button variant="outline" onClick={() => setShowUploadModal(false)}>Cancel</Button>
